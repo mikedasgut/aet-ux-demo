@@ -175,18 +175,28 @@ function sportName(){ return state.sport==='Other'?(state.sportOther||'your game
 const ACUITY=[['20/80','E F P',46],['20/60','T O Z',36],['20/40','L P E D',28],['20/30','P E C F D',22],['20/25','E D F C Z P',17],['20/20','F E L O P Z D',13]];
 function nearRows(){ return [['Easy',SP().nearEx,26],['Comfortable','a note from the pro shop',20],['Average','the fine print on a card',15],['Sharp','small settings and labels',12],['Excellent','the disclaimer on a pill bottle',10]]; }
 const AGE=[['Under 40','Still in my prime',92],['40s','Peak experience',88],['50s','Sharper every season',82],['60s','Seasoned competitor',74],['70+','Ageless',66]];
-const SYMPTOMS=[
-  ['&#128083;','Glasses fog or slip mid-point','refractive'],['&#128167;','Contacts dry out outdoors','refractive'],
-  ['&#127934;','I can&rsquo;t track the ball like I used to','dynamic'],['&#128214;','Reading the scorecard up close','near'],
-  ['&#127769;','Glare or halos driving at night','glare'],['&#128161;','Low light kills my read','glare'],['&#10133;','Something else','other']
-];
+const SYM_BY_SPORT={
+  Pickleball:[['&#127934;','Fast hands at the net blur on me','dynamic'],['&#128167;','Contacts dry out on the court','refractive'],
+    ['&#128083;','I react a beat late at the kitchen','dynamic'],['&#128214;','Reading the score or my phone up close','near'],
+    ['&#127769;','Glare or halos driving at night','glare'],['&#128161;','Indoor or low light kills my read','glare'],['&#10133;','Something else','other']],
+  Golf:[['&#127934;','I lose the ball against the sky off the tee','dynamic'],['&#128167;','Eyes dry out on a windy round','refractive'],
+    ['&#128083;','I can&rsquo;t follow ball flight like I used to','dynamic'],['&#128214;','Reading the scorecard or yardage book','near'],
+    ['&#127769;','Glare or halos driving home at night','glare'],['&#128161;','Dusk light kills my read of the green','glare'],['&#10133;','Something else','other']],
+  Tennis:[['&#127934;','I misjudge a ball with real pace','dynamic'],['&#128167;','Contacts dry out in sun and wind','refractive'],
+    ['&#128083;','I pick up the serve a beat late','dynamic'],['&#128214;','Reading the draw sheet or my phone up close','near'],
+    ['&#127769;','Glare or halos driving at night','glare'],['&#128161;','Indoor or low light kills my read','glare'],['&#10133;','Something else','other']],
+  Other:[['&#127934;','Things blur when I need them sharp','refractive'],['&#128167;','Eyes dry out when I play','refractive'],
+    ['&#128083;','I track fast movement a beat late','dynamic'],['&#128214;','Reading small print up close','near'],
+    ['&#127769;','Glare or halos driving at night','glare'],['&#128161;','Low light kills my read','glare'],['&#10133;','Something else','other']]
+};
+function SYM(){ return SYM_BY_SPORT[state.sport]||SYM_BY_SPORT.Other; }
 const CONTEXT=['I wear glasses, contacts, or readers','I&rsquo;ve had eye surgery before','Diabetes or glaucoma in my history','Dry or irritated eyes','None of these'];
 
 function acuityScore(){ return state.acuity==null?0:[55,63,72,81,90,97][state.acuity]; }
 function nearScore(){ return state.near==null?0:[58,68,78,88,96][state.near]; }
 function totalScore(){ const v=[acuityScore(),state.reaction,state.contrast,nearScore()].filter(x=>x>0); return v.length?Math.round(v.reduce((a,b)=>a+b,0)/v.length):0; }
 function ageAvg(){ const a=AGE.find(x=>x[0]===state.age); return a?a[2]:80; }
-function symKind(){ return (SYMPTOMS.find(x=>x[1]===state.pain)||[])[2]; }
+function symKind(){ return (SYM().find(x=>x[1]===state.pain)||[])[2]; }
 
 function animateChip(){ chip.style.opacity=(state.acuity!=null||state.reaction||state.contrast||state.near!=null)?'1':'0'; const t=totalScore(); let c=parseInt(chipval.textContent)||0;
   const iv=setInterval(()=>{c+=Math.max(1,Math.round((t-c)/6));if(c>=t){c=t;clearInterval(iv);}chipval.textContent=c;},28); }
@@ -248,8 +258,8 @@ screens[3]=()=>`<div class="stagger"><div class="eyebrow">Your prime</div><h1>Wh
   <div class="spacer"></div><button class="btn" onclick="next()" ${state.age?'':'disabled'}>Continue <span class="arrow">&rarr;</span></button></div>`;
 
 screens[4]=()=>`<div class="stagger"><div class="eyebrow">The honest answer</div><h1>Where does it<br><span class="it">cost</span> you?</h1>
-  <div class="lede" style="margin-top:8px">The thing quietly bleeding shots. Pick the one that stings most.</div>
-  <div class="chips">${SYMPTOMS.map((p,i)=>`<div class="chip ${state.pain===p[1]?'sel':''}" data-other="${p[2]==='other'?1:''}" onclick="selSingle(this,'pain',SYMPTOMS[${i}][1])"><span class="radio"></span><span class="e">${p[0]}</span>${p[1]}</div>`).join('')}</div>
+  <div class="lede" style="margin-top:8px">The thing quietly bleeding ${SP().unit} out on ${SP().arena}. Pick the one that stings most.</div>
+  <div class="chips">${SYM().map((p,i)=>`<div class="chip ${state.pain===p[1]?'sel':''}" data-other="${p[2]==='other'?1:''}" onclick="selSingle(this,'pain',SYM()[${i}][1])"><span class="radio"></span><span class="e">${p[0]}</span>${p[1]}</div>`).join('')}</div>
   <div class="otherfield" style="display:${symKind()==='other'?'block':'none'}"><input placeholder="Tell us in a few words" value="${state.painOther}" oninput="state.painOther=this.value"/></div>
   <div class="spacer"></div><button class="btn" onclick="next()" ${state.pain?'':'disabled'}>Continue <span class="arrow">&rarr;</span></button></div>`;
 

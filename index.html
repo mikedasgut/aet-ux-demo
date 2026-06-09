@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-<title>Athlete's Eye Test — Vision Workup</title>
+<title>Athlete's Eye Test — Find Your Edge</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,500;0,600;0,700;1,500&family=Mulish:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Mulish:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
 <style>
   :root{
     --cream:#F6F2E9; --card:#FFFFFF; --ink:#1B2B23; --muted:#6C7A70; --line:#E6E0D3;
@@ -21,38 +21,32 @@
     background:radial-gradient(120% 50% at 50% -5%,#fbf8f1,transparent 60%),var(--cream);overflow:hidden}
   @media (min-width:780px){ body{padding:22px}
     .app{height:min(900px,94dvh);border-radius:34px;box-shadow:0 50px 100px -34px rgba(20,40,30,.45);border:1px solid #e7e1d4} }
-  /* header */
   .top{display:flex;align-items:center;gap:10px;padding:calc(13px + env(safe-area-inset-top)) 16px 8px;flex:0 0 auto}
   .navback{flex:0 0 auto;display:inline-flex;align-items:center;gap:4px;height:34px;padding:0 13px;border-radius:999px;border:1.5px solid var(--line);
     background:var(--card);color:var(--green);font-family:var(--sans);font-weight:700;font-size:13.5px;cursor:pointer;visibility:hidden;transition:.15s}
   .navback.show{visibility:visible}.navback:active{background:var(--green-soft)}
-  .brand{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-align:center;
-    font-weight:800;letter-spacing:.12em;font-size:11px;text-transform:uppercase;color:var(--muted)}
-  .scorechip{flex:0 0 auto;display:flex;align-items:center;gap:6px;font-weight:800;font-size:12px;color:var(--green);
-    background:var(--green-soft);border:1px solid var(--green-tint);padding:5px 11px;border-radius:999px;transition:opacity .3s}
+  .brand{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-align:center;font-weight:800;letter-spacing:.12em;font-size:11px;text-transform:uppercase;color:var(--muted)}
+  .scorechip{flex:0 0 auto;display:flex;align-items:center;gap:6px;font-weight:800;font-size:12px;color:var(--green);background:var(--green-soft);border:1px solid var(--green-tint);padding:5px 11px;border-radius:999px;transition:opacity .3s}
   .scorechip .dot{width:6px;height:6px;border-radius:50%;background:var(--gold)}
   .progress{height:4px;margin:6px 16px 0;background:#e7e1d4;border-radius:9px;overflow:hidden;flex:0 0 auto}
   .progress>i{display:block;height:100%;width:5%;border-radius:9px;background:linear-gradient(90deg,var(--green),var(--gold));transition:width .55s cubic-bezier(.2,.8,.2,1)}
-  /* single scroll surface */
   .stage{position:relative;flex:1;min-height:0;display:flex}
   .screen{flex:1;min-height:0;overflow-y:auto;-webkit-overflow-scrolling:touch;display:flex;flex-direction:column;
     padding:16px 20px calc(22px + env(safe-area-inset-bottom));opacity:1;transition:opacity .26s ease}
   .screen.out{opacity:0}
   .eyebrow{font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:var(--gold);font-weight:800;margin-bottom:12px;flex:0 0 auto}
-  h1{font-family:var(--disp);font-weight:600;font-size:clamp(26px,7.6vw,32px);line-height:1.12;color:var(--green2);flex:0 0 auto}
+  h1{font-family:var(--disp);font-weight:600;font-size:clamp(27px,7.9vw,33px);line-height:1.1;color:var(--green2);flex:0 0 auto}
   h1 .it{font-style:italic;color:var(--gold)}
   .lede{color:#4d5b52;font-size:16px;line-height:1.55;margin-top:11px;flex:0 0 auto}
   .hint-pill{display:inline-block;margin-top:12px;font-size:12px;font-weight:700;color:var(--green);background:var(--green-soft);border:1px solid var(--green-tint);padding:5px 12px;border-radius:999px;flex:0 0 auto;align-self:flex-start}
-  .spacer{flex:1 1 auto;min-height:16px}
-  .btn{appearance:none;border:0;cursor:pointer;font-family:var(--sans);font-weight:700;font-size:16.5px;padding:17px 20px;border-radius:14px;width:100%;
-    display:flex;align-items:center;justify-content:center;gap:10px;background:var(--green);color:#f3efe4;transition:transform .12s,filter .2s;flex:0 0 auto;box-shadow:0 10px 22px -12px rgba(30,70,54,.6)}
+  .spacer{flex:1 1 auto;min-height:14px}
+  .btn{appearance:none;border:0;cursor:pointer;font-family:var(--sans);font-weight:700;font-size:16.5px;padding:17px 20px;border-radius:14px;width:100%;display:flex;align-items:center;justify-content:center;gap:10px;background:var(--green);color:#f3efe4;transition:transform .12s,filter .2s;flex:0 0 auto;box-shadow:0 10px 22px -12px rgba(30,70,54,.6)}
   .btn:active{transform:scale(.985)}.btn:hover{filter:brightness(1.06)}.btn[disabled]{opacity:.42;box-shadow:none}
   .btn.ghost{background:transparent;color:var(--green);border:1.5px solid var(--green-tint);box-shadow:none}
   .btn .arrow{font-size:19px}
   .meta{display:flex;align-items:center;justify-content:center;gap:8px;color:var(--muted);font-size:13px;margin-top:12px;flex:0 0 auto;text-align:center}
   .pulse{width:7px;height:7px;border-radius:50%;background:var(--gold);animation:p 1.9s infinite;flex:0 0 auto}
   @keyframes p{0%{box-shadow:0 0 0 0 rgba(176,137,75,.45)}70%{box-shadow:0 0 0 9px rgba(176,137,75,0)}100%{box-shadow:0 0 0 0 rgba(176,137,75,0)}}
-  /* single-select cards */
   .cards{display:flex;flex-direction:column;gap:11px;margin-top:16px;flex:0 0 auto}
   .card{display:flex;align-items:center;gap:14px;padding:16px;border-radius:15px;cursor:pointer;background:var(--card);border:1.5px solid var(--line);transition:.15s}
   .card:active{transform:scale(.99)}.card.sel{border-color:var(--green);background:var(--green-soft)}
@@ -63,40 +57,33 @@
   .grid2{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-top:16px;flex:0 0 auto}
   .tile{padding:17px 16px;border-radius:15px;background:var(--card);border:1.5px solid var(--line);cursor:pointer;transition:.15s;text-align:left}
   .tile:active{transform:scale(.99)}.tile.sel{border-color:var(--green);background:var(--green-soft)}
-  .tile b{font-family:var(--disp);font-size:23px;font-weight:600;display:block;color:var(--green2)}
-  .tile span{color:var(--muted);font-size:12px}
-  /* single-select symptom chips (radio) */
+  .tile b{font-family:var(--disp);font-size:23px;font-weight:600;display:block;color:var(--green2)}.tile span{color:var(--muted);font-size:12px}
   .chips{display:flex;flex-direction:column;gap:9px;margin-top:16px;flex:0 0 auto}
   .chip{padding:14px 16px;border-radius:13px;background:var(--card);border:1.5px solid var(--line);cursor:pointer;font-weight:600;font-size:14.5px;transition:.15s;display:flex;align-items:center;gap:12px;color:var(--ink)}
   .chip:active{transform:scale(.99)}.chip.sel{background:var(--green-soft);border-color:var(--green)}
-  .chip .radio{width:20px;height:20px;border-radius:50%;border:2px solid #c9c2b2;flex:0 0 auto}
-  .chip.sel .radio{border-color:var(--green);box-shadow:inset 0 0 0 4px var(--green)}
+  .chip .radio{width:20px;height:20px;border-radius:50%;border:2px solid #c9c2b2;flex:0 0 auto}.chip.sel .radio{border-color:var(--green);box-shadow:inset 0 0 0 4px var(--green)}
   .chip .e{font-size:18px;flex:0 0 auto}
-  /* multi-select rows (checkboxes) */
   .opts{display:flex;flex-direction:column;gap:9px;margin-top:14px;flex:0 0 auto}
   .opt{display:flex;align-items:center;gap:13px;padding:14px 15px;border-radius:13px;background:var(--card);border:1.5px solid var(--line);cursor:pointer;font-weight:600;font-size:15px;color:var(--ink);transition:.15s}
   .opt:active{transform:scale(.99)}.opt.sel{border-color:var(--green);background:var(--green-soft)}
   .opt .cbx{width:24px;height:24px;border-radius:7px;border:2px solid #c9c2b2;display:grid;place-items:center;color:#fff;font-weight:900;font-size:14px;flex:0 0 auto;transition:.12s}
   .opt.sel .cbx{background:var(--green);border-color:var(--green)}
-  /* test surfaces */
   .surface{background:var(--card);border:1px solid var(--line);border-radius:18px;margin-top:14px;padding:20px 16px;flex:0 0 auto}
   .acuity-row,.near-row{display:block;width:100%;text-align:center;color:#13211a;cursor:pointer;padding:9px 4px;border-radius:10px;transition:.12s;font-weight:700;letter-spacing:.18em}
-  .acuity-row:active,.near-row:active{background:var(--green-soft)}
-  .acuity-row.sel,.near-row.sel{background:var(--green-soft);outline:1.5px solid var(--green)}
+  .acuity-row:active,.near-row:active{background:var(--green-soft)}.acuity-row.sel,.near-row.sel{background:var(--green-soft);outline:1.5px solid var(--green)}
   .near-row{font-family:var(--disp);font-weight:500;letter-spacing:normal;line-height:1.25}
   .rowtag{font-size:10px;color:var(--muted);font-weight:700;letter-spacing:.1em}
-  .dotrow{display:flex;align-items:center;justify-content:space-between;gap:7px;padding:8px 2px}
-  .vdot{flex:1;aspect-ratio:1;border-radius:50%;background:#33453b;cursor:pointer;transition:transform .15s;max-width:42px}
-  .vdot:active{transform:scale(1.15)}
-  .scale{display:flex;justify-content:space-between;color:var(--muted);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;margin-top:8px;flex:0 0 auto}
-  .burst{display:grid;place-items:center;padding:6px 0}
-  .spokebtns{display:flex;gap:10px;margin-top:14px;flex:0 0 auto}.spokebtns .btn{font-size:14.5px;padding:14px}
+  /* dynamic arena */
+  .arena{position:relative;height:240px;border-radius:18px;margin:14px 0;overflow:hidden;cursor:pointer;display:grid;place-items:center;flex:0 0 auto;
+    background:radial-gradient(95% 130% at 50% 0,#eef3ee,#dde7de);border:1px solid var(--line)}
+  .arena .net{position:absolute;left:0;right:0;top:50%;height:2px;background:repeating-linear-gradient(90deg,#b7c4b8 0 8px,transparent 8px 16px)}
+  .gball{width:52px;height:52px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff7d8,var(--gold) 55%,#94702f);box-shadow:0 8px 20px rgba(120,90,40,.4);will-change:filter,transform,opacity}
+  .arena .hint{position:absolute;bottom:12px;left:0;right:0;text-align:center;color:#5a6a5d;font-size:12.5px;font-weight:700}
   .field{margin-top:14px;flex:0 0 auto}
   .field label{display:block;font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:800;margin-bottom:7px}
   .field input{width:100%;padding:15px;border-radius:13px;background:var(--card);border:1.5px solid var(--line);color:var(--ink);font-family:var(--sans);font-size:16px;font-weight:600}
   .field input:focus{outline:none;border-color:var(--green)}
   .reassure{display:flex;gap:9px;align-items:flex-start;color:var(--muted);font-size:12.5px;margin-top:13px;line-height:1.45;flex:0 0 auto}.reassure b{color:#3a4842}
-  /* report */
   .ring-wrap{display:grid;place-items:center;margin:4px 0 2px;flex:0 0 auto}
   .ring{position:relative;width:170px;height:170px}.ring svg{transform:rotate(-90deg)}
   .ring .num{position:absolute;inset:0;display:grid;place-content:center;text-align:center}
@@ -115,16 +102,13 @@
   .path p{font-size:14px;color:#3a4842;line-height:1.52}
   .docbox{margin-top:16px;border:1px dashed var(--green-tint);border-radius:16px;background:var(--green-soft);padding:16px;flex:0 0 auto}
   .docbox .h{display:flex;align-items:center;gap:8px;font-weight:800;font-size:12px;letter-spacing:.05em;text-transform:uppercase;color:var(--green);margin-bottom:10px}
-  .docbox ul{list-style:none;display:grid;gap:7px}
-  .docbox li{display:flex;justify-content:space-between;gap:12px;font-size:13px;color:#33433b}
-  .docbox li b{color:var(--green2);font-weight:700;text-align:right}
+  .docbox ul{list-style:none;display:grid;gap:7px}.docbox li{display:flex;justify-content:space-between;gap:12px;font-size:13px;color:#33433b}.docbox li b{color:var(--green2);font-weight:700;text-align:right}
   .cta-prac{text-align:center;color:var(--muted);font-size:12.5px;margin-top:11px;flex:0 0 auto}.cta-prac b{color:var(--ink)}
   .disc{text-align:center;color:#9a937f;font-size:10.5px;margin-top:16px;flex:0 0 auto}
   .feedback{position:absolute;inset:0;display:grid;place-items:center;z-index:7;opacity:0;pointer-events:none;transition:opacity .3s}
   .feedback.on{opacity:1}
   .feedback .fb{background:rgba(27,43,35,.93);color:#f2efe5;border-radius:18px;padding:22px 28px;text-align:center;max-width:80%;box-shadow:0 24px 60px -20px rgba(0,0,0,.5)}
-  .feedback .fb .big{font-family:var(--disp);font-size:26px;color:#fff;font-weight:600}
-  .feedback .fb .sm{color:#cdd6cd;font-size:13.5px;margin-top:5px}
+  .feedback .fb .big{font-family:var(--disp);font-size:26px;color:#fff;font-weight:600}.feedback .fb .sm{color:#cdd6cd;font-size:13.5px;margin-top:5px}
   @keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
   .stagger>*{opacity:0;animation:rise .5s forwards}
   .stagger>*:nth-child(1){animation-delay:.03s}.stagger>*:nth-child(2){animation-delay:.1s}.stagger>*:nth-child(3){animation-delay:.17s}
@@ -144,7 +128,7 @@
 </div>
 
 <script>
-const state={ sport:null, age:null, pain:null, acuity:null, contrast:0, clarity:0, near:null, context:[], club:'', name:'', email:'' };
+const state={ sport:null, age:null, pain:null, acuity:null, reaction:0, contrast:0, near:null, context:[], club:'', name:'', email:'' };
 let step=0; const TOTAL=12;
 const screenEl=document.getElementById('screen'), bar=document.getElementById('bar'),
       chip=document.getElementById('chip'), chipval=document.getElementById('chipval'), back=document.getElementById('back');
@@ -153,24 +137,15 @@ const ACUITY=[['20/80','E F P',46],['20/60','T O Z',36],['20/40','L P E D',28],[
 const NEAR=[['Easy','Reading the leaderboard',26],['Comfortable','A note from the pro shop',20],['Average','The fine print on a scorecard',15],['Sharp','Settings on your rangefinder',12],['Excellent','The disclaimer on a pill bottle',10]];
 const AGE=[['40s','Refractive prime'],['50s','Reading creeps in'],['60s','Lens changes begin'],['70+','The cataract years']];
 const SYMPTOMS=[
-  ['&#128083;','Glasses fog or slip mid-point','refractive'],
-  ['&#128167;','Contacts dry out outdoors','refractive'],
-  ['&#127934;','I can&rsquo;t track the ball like I used to','dynamic'],
-  ['&#128214;','Reading the scorecard up close','near'],
-  ['&#127769;','Glare or halos driving at night','glare'],
-  ['&#128161;','Low light kills my read','glare']
+  ['&#128083;','Glasses fog or slip mid-point','refractive'],['&#128167;','Contacts dry out outdoors','refractive'],
+  ['&#127934;','I can&rsquo;t track the ball like I used to','dynamic'],['&#128214;','Reading the scorecard up close','near'],
+  ['&#127769;','Glare or halos driving at night','glare'],['&#128161;','Low light kills my read','glare']
 ];
-const CONTEXT=[
-  'I wear glasses, contacts, or readers',
-  'I&rsquo;ve had eye surgery before',
-  'Diabetes or glaucoma in my history',
-  'Dry or irritated eyes',
-  'None of these'
-];
+const CONTEXT=['I wear glasses, contacts, or readers','I&rsquo;ve had eye surgery before','Diabetes or glaucoma in my history','Dry or irritated eyes','None of these'];
 
 function acuityScore(){ return state.acuity==null?0:[55,63,72,81,90,97][state.acuity]; }
 function nearScore(){ return state.near==null?0:[58,68,78,88,96][state.near]; }
-function totalScore(){ const v=[acuityScore(),state.contrast,state.clarity,nearScore()].filter(x=>x>0); return v.length?Math.round(v.reduce((a,b)=>a+b,0)/v.length):0; }
+function totalScore(){ const v=[acuityScore(),state.reaction,state.contrast,nearScore()].filter(x=>x>0); return v.length?Math.round(v.reduce((a,b)=>a+b,0)/v.length):0; }
 function ageAvg(){ return {'40s':88,'50s':82,'60s':74,'70+':66}[state.age]||78; }
 function symKind(){ return (SYMPTOMS.find(x=>x[1]===state.pain)||[])[2]; }
 
@@ -182,86 +157,91 @@ function flash(big,sm,cb){ const f=document.getElementById('feedback');document.
 function next(){ if(step<TOTAL-1){step++;render();} }
 back.onclick=()=>{ if(step>0){step--;render();} };
 
-/* internal segmentation -> neutral "focus", never a procedure pitch */
 const FOCUS={
   refractive:{line:'distance sharpness and astigmatism', clinical:'Refractive evaluation'},
   near:{line:'up-close reading vision', clinical:'Near-vision and lens evaluation'},
   contrast:{line:'low-light contrast', clinical:'Contrast and lens-health evaluation'}
 };
-function focusKind(){
-  const a=state.age, k=symKind();
-  const nearWeak=(state.near!=null&&state.near<=2), contrastWeak=(state.contrast>0&&state.contrast<76);
-  if((a==='60s'||a==='70+') && (contrastWeak||k==='glare')) return 'contrast';
-  if((a==='50s'||a==='60s'||a==='70+') && (nearWeak||k==='near')) return 'near';
-  return 'refractive';
-}
-function isCandidate(){
-  if(state.context.includes(0)) return true;
-  if(totalScore() < Math.min(ageAvg(),78)) return true;
-  if(state.near!=null && state.near<=1) return true;
-  if(state.contrast>0 && state.contrast<70) return true;
-  if(state.acuity!=null && state.acuity<=1) return true;
-  return false;
-}
+function focusKind(){ const a=state.age,k=symKind(); const nearWeak=(state.near!=null&&state.near<=2), contrastWeak=(state.contrast>0&&state.contrast<76);
+  if((a==='60s'||a==='70+')&&(contrastWeak||k==='glare')) return 'contrast';
+  if((a==='50s'||a==='60s'||a==='70+')&&(nearWeak||k==='near')) return 'near';
+  return 'refractive'; }
+function isCandidate(){ if(state.context.includes(0)) return true; if(totalScore()<Math.min(ageAvg(),78)) return true;
+  if(state.near!=null&&state.near<=1) return true; if(state.contrast>0&&state.contrast<70) return true; if(state.acuity!=null&&state.acuity<=1) return true; return false; }
 function correction(){ return state.context.includes(0)?'glasses / contacts / readers':'none'; }
 function ctxFlags(){ const f=[]; if(state.context.includes(1))f.push('prior eye surgery'); if(state.context.includes(2))f.push('diabetes/glaucoma hx'); if(state.context.includes(3))f.push('dry eye'); return f.length?f.join(', '):'none flagged'; }
 
 const screens=[];
 
 screens[0]=()=>`<div class="stagger">
-  <div class="eyebrow">Complimentary &middot; about 2 minutes</div>
-  <h1>Your personal<br><span class="it">vision workup.</span></h1>
-  <div class="lede">A guided eye-performance check for active adults, with a Scouting Report and, for the right players, a complimentary full Athlete&rsquo;s Eye Test with a doctor near your club.</div>
+  <div class="eyebrow">For players who refuse to slow down</div>
+  <h1>The ball<br><span class="it">doesn&rsquo;t lie.</span></h1>
+  <div class="lede">You haven&rsquo;t lost a step. But your eyes might be costing you the ones you can&rsquo;t see. Two minutes, four quick tests, and you&rsquo;ll know exactly what your game is leaving on the table.</div>
   <div class="spacer"></div>
-  <button class="btn" onclick="next()">Begin my workup <span class="arrow">&rarr;</span></button>
-  <div class="meta"><span class="pulse"></span> Four quick vision tests &middot; no glasses required</div>
-  <div class="meta" style="margin-top:6px;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#9a937f">Powered by Dancecard</div></div>`;
+  <button class="btn" onclick="next()">Find my edge <span class="arrow">&rarr;</span></button>
+  <div class="meta"><span class="pulse"></span> No glasses &middot; no commitment &middot; just your eyes vs the test</div>
+  <div class="meta" style="margin-top:6px;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:#9a937f">Powered by Dancecard</div></div>`;
 
 screens[1]=()=>{ const o=[['Pickleball','&#127952;','Fastest game on the court'],['Golf','&#9971;','Tracking the line and the lie'],['Tennis','&#127934;','Reading pace and spin']];
-  return `<div class="stagger"><div class="eyebrow">Your game</div><h1>Which is <span class="it">your</span> game?</h1>
-  <div class="lede" style="margin-top:8px">We tune the workup to how you actually play.</div>
+  return `<div class="stagger"><div class="eyebrow">Your arena</div><h1>Which game<br><span class="it">owns</span> you?</h1>
+  <div class="lede" style="margin-top:8px">We tune every test to how you read the ball.</div>
   <div class="cards">${o.map(x=>`<div class="card ${state.sport===x[0]?'sel':''}" onclick="state.sport='${x[0]}';render()"><div class="ic">${x[1]}</div><div><div class="tt">${x[0]}</div><div class="ss">${x[2]}</div></div><div class="chk">${state.sport===x[0]?'&#10003;':''}</div></div>`).join('')}</div>
   <div class="spacer"></div><button class="btn" onclick="next()" ${state.sport?'':'disabled'}>Continue <span class="arrow">&rarr;</span></button></div>`; };
 
-screens[2]=()=>`<div class="stagger"><div class="eyebrow">Your prime</div><h1>Which decade<br>are you <span class="it">playing</span> in?</h1>
-  <div class="lede" style="margin-top:8px">Vision shifts with the years. This tunes your read.</div>
+screens[2]=()=>`<div class="stagger"><div class="eyebrow">Your prime</div><h1>Which decade are<br>you <span class="it">playing</span> in?</h1>
+  <div class="lede" style="margin-top:8px">Your eyes change with the years, mostly without telling you. This tunes your read.</div>
   <div class="grid2">${AGE.map(a=>`<div class="tile ${state.age===a[0]?'sel':''}" onclick="state.age='${a[0]}';render()"><b>${a[0]}</b><span>${a[1]}</span></div>`).join('')}</div>
   <div class="spacer"></div><button class="btn" onclick="next()" ${state.age?'':'disabled'}>Continue <span class="arrow">&rarr;</span></button></div>`;
 
-screens[3]=()=>`<div class="stagger"><div class="eyebrow">On the court</div><h1>What costs you<br>the <span class="it">most</span>?</h1>
-  <div class="lede" style="margin-top:8px">Pick the one that stings most. We&rsquo;ll measure it.</div>
+screens[3]=()=>`<div class="stagger"><div class="eyebrow">The honest answer</div><h1>Where does it<br><span class="it">cost</span> you?</h1>
+  <div class="lede" style="margin-top:8px">The thing that&rsquo;s quietly bleeding shots. Pick the one that stings most.</div>
   <div class="chips">${SYMPTOMS.map((p,i)=>`<div class="chip ${state.pain===p[1]?'sel':''}" onclick="state.pain=SYMPTOMS[${i}][1];render()"><span class="radio"></span><span class="e">${p[0]}</span>${p[1]}</div>`).join('')}</div>
   <div class="spacer"></div><button class="btn" onclick="next()" ${state.pain?'':'disabled'}>Continue <span class="arrow">&rarr;</span></button></div>`;
 
-screens[4]=()=>`<div class="stagger"><div class="eyebrow">Vision Test 1 of 4 &middot; Distance</div><h1>Smallest line<br>you can <span class="it">read</span>?</h1>
-  <div class="lede" style="margin-top:6px">Arm&rsquo;s length, one eye at a time if you like. Tap the smallest row you can read clearly.</div>
+/* T1 acuity (tap) */
+screens[4]=()=>`<div class="stagger"><div class="eyebrow">Test 1 of 4 &middot; The long read</div><h1>How far can you<br>still <span class="it">read</span> the line?</h1>
+  <div class="lede" style="margin-top:6px">Arm&rsquo;s length, one eye at a time. Tap the smallest row you can still call.</div>
   <div class="surface">${ACUITY.map((r,i)=>`<div class="acuity-row ${state.acuity===i?'sel':''}" style="font-size:${r[2]}px" onclick="setAcuity(${i})">${r[1]}<div class="rowtag">${r[0]}</div></div>`).join('')}</div>
   <div class="meta">Estimates your distance acuity &middot; tap your line</div></div>`;
 function setAcuity(i){ state.acuity=i; animateChip(); flash('Distance: '+ACUITY[i][0], i>=4?'Crisp eyes.':'Good read, room to sharpen.', next); }
 
-screens[5]=()=>{ const op=[1,.6,.4,.26,.16,.09];
-  return `<div class="stagger"><div class="eyebrow">Vision Test 2 of 4 &middot; Contrast</div><h1>Tap the <span class="it">faintest</span><br>dot you can see.</h1>
-  <div class="lede" style="margin-top:6px">Contrast sensitivity is how you find the ball in glare and shadow, the first thing a clouding lens steals.</div>
-  <div class="surface"><div class="dotrow">${op.map((o,i)=>`<div class="vdot" style="opacity:${o}" onclick="contrast(${i})"></div>`).join('')}</div>
-  <div class="scale"><span>Obvious</span><span>Barely there</span></div></div>
-  <div class="meta">Trust your eyes &middot; tap the last one you can make out</div></div>`; };
-function contrast(i){ state.contrast=[58,66,74,83,91,97][i]; animateChip(); flash('Contrast: '+state.contrast,'That is your low-light edge.',next); }
+/* T2 reaction (DYNAMIC) */
+screens[5]=()=>`<div class="stagger"><div class="eyebrow">Test 2 of 4 &middot; The read</div><h1>Catch it at its<br><span class="it">sharpest.</span></h1>
+  <div class="lede" style="margin-top:6px">The ball is live. Tap the instant it snaps into focus, the way you&rsquo;d time a volley.</div>
+  <div class="arena" id="arena" onclick="reactTap()"><div class="net"></div><div class="gball" id="rball"></div><div class="hint">Watch it pulse &middot; tap at its sharpest</div></div>
+  <div class="meta"><span class="pulse"></span> One tap. Trust your instinct.</div></div>`;
+let rafR=null,rDone=false;
+function startReaction(){ const ball=document.getElementById('rball'); if(!ball)return; const t0=performance.now(); rDone=false;
+  const loop=(t)=>{ const ph=((t-t0)/1500)%1; const sh=Math.abs(Math.sin(ph*Math.PI));
+    ball.style.filter='blur('+((1-sh)*7).toFixed(2)+'px)'; ball.style.transform='scale('+(0.9+sh*0.16).toFixed(3)+')'; ball.dataset.s=sh.toFixed(3); rafR=requestAnimationFrame(loop); };
+  rafR=requestAnimationFrame(loop); }
+function reactTap(){ if(rDone)return; rDone=true; cancelAnimationFrame(rafR); const ball=document.getElementById('rball'); const sh=parseFloat(ball.dataset.s||0);
+  state.reaction=Math.round(58+sh*40); ball.style.filter='blur(0)'; ball.style.transform='scale(1.08)'; animateChip();
+  flash('On-court read: '+state.reaction, sh>0.82?'Pro timing.':'A beat late, and that is fixable.', next); }
 
-screens[6]=()=>{ let l=''; for(let a=0;a<24;a++){const d=a*15;l+=`<line x1="100" y1="100" x2="100" y2="10" stroke="#23332a" stroke-width="${a%6===0?3:1.4}" transform="rotate(${d} 100 100)"/>`;}
-  return `<div class="stagger"><div class="eyebrow">Vision Test 3 of 4 &middot; Optical quality</div><h1>Do the lines<br>look <span class="it">even</span>?</h1>
-  <div class="lede" style="margin-top:6px">Cover one eye. If some spokes look bolder or blurrier, that&rsquo;s astigmatism pulling at your sharpness.</div>
-  <div class="surface"><div class="burst"><svg width="186" height="186" viewBox="0 0 200 200">${l}<circle cx="100" cy="100" r="6" fill="#fff" stroke="var(--green)" stroke-width="2"/></svg></div></div>
-  <div class="spokebtns"><button class="btn ghost" onclick="clarity(72)">A few stand out</button><button class="btn" onclick="clarity(94)">All sharp &amp; even</button></div></div>`; };
-function clarity(v){ state.clarity=v; animateChip(); flash('Optical quality: '+v, v>85?'Clean optics.':'A correctable astigmatism signal.', next); }
+/* T3 contrast fade (DYNAMIC) */
+screens[6]=()=>`<div class="stagger"><div class="eyebrow">Test 3 of 4 &middot; Low light</div><h1>Don&rsquo;t <span class="it">lose</span><br>the ball.</h1>
+  <div class="lede" style="margin-top:6px">It&rsquo;s fading. Tap the last moment you can still see it, the read that goes first in dusk and glare.</div>
+  <div class="arena" id="arena2" onclick="fadeTap()"><div class="net"></div><div class="gball" id="cball"></div><div class="hint">Tap before it disappears</div></div>
+  <div class="meta"><span class="pulse"></span> The fainter you can still catch it, the sharper your eyes.</div></div>`;
+let rafC=null,cDone=false;
+function startFade(){ const ball=document.getElementById('cball'); if(!ball)return; const t0=performance.now(); cDone=false; ball.style.opacity='1';
+  const loop=(t)=>{ const op=Math.max(0,1-(t-t0)/3400); ball.style.opacity=op.toFixed(3); ball.dataset.o=op.toFixed(3);
+    if(op<=0.02){ if(cDone)return; cDone=true; cancelAnimationFrame(rafC); state.contrast=60; animateChip(); flash('Contrast: 60','It vanished early. Low light is your gap.', next); return; }
+    rafC=requestAnimationFrame(loop); };
+  rafC=requestAnimationFrame(loop); }
+function fadeTap(){ if(cDone)return; cDone=true; cancelAnimationFrame(rafC); const ball=document.getElementById('cball'); const op=parseFloat(ball.dataset.o||1);
+  state.contrast=Math.round(60+(1-op)*38); ball.style.opacity='1'; animateChip(); flash('Contrast: '+state.contrast, op<0.25?'Sharp low-light read.':'Solid, with room to gain.', next); }
 
-screens[7]=()=>`<div class="stagger"><div class="eyebrow">Vision Test 4 of 4 &middot; Near</div><h1>How close can<br>you <span class="it">read</span>?</h1>
-  <div class="lede" style="margin-top:6px">Hold the phone where you&rsquo;d read a menu. Tap the smallest line you can read without reaching for readers.</div>
+/* T4 near (tap) */
+screens[7]=()=>`<div class="stagger"><div class="eyebrow">Test 4 of 4 &middot; Up close</div><h1>The menu keeps<br><span class="it">moving away.</span></h1>
+  <div class="lede" style="margin-top:6px">Hold the phone where you&rsquo;d read a scorecard. Tap the smallest line you can read without readers.</div>
   <div class="surface">${NEAR.map((r,i)=>`<div class="near-row ${state.near===i?'sel':''}" style="font-size:${r[2]}px" onclick="setNear(${i})">${r[1]}<div class="rowtag" style="letter-spacing:.1em">${r[0]}</div></div>`).join('')}</div>
   <div class="meta">Reveals presbyopia, the reading change after 45</div></div>`;
 function setNear(i){ state.near=i; animateChip(); flash('Near: '+NEAR[i][0], i>=3?'Excellent up-close vision.':'A common reading change, very fixable.', next); }
 
 screens[8]=()=>`<div class="stagger"><div class="eyebrow">For your specialist</div><h1>Anything we<br>should <span class="it">know</span>?</h1>
-  <div class="lede" style="margin-top:6px">This goes straight to your doctor so your visit starts ahead.</div>
+  <div class="lede" style="margin-top:6px">This goes straight to your doctor, so your visit starts ahead.</div>
   <div class="hint-pill">&#9745; Select all that apply</div>
   <div class="opts">${CONTEXT.map((c,i)=>`<div class="opt ${state.context.includes(i)?'sel':''}" onclick="toggleCtx(${i})"><span class="cbx">${state.context.includes(i)?'&#10003;':''}</span>${c}</div>`).join('')}</div>
   <div class="spacer"></div><button class="btn" onclick="next()" ${state.context.length?'':'disabled'}>Continue <span class="arrow">&rarr;</span></button></div>`;
@@ -275,26 +255,26 @@ screens[9]=()=>`<div class="stagger"><div class="eyebrow">Almost there</div><h1>
   <div class="reassure">&#128274;&nbsp;<div><b>Private.</b> Used only to find the office nearest you. Never shared, never spam.</div></div>
   <div class="spacer"></div><button class="btn" id="c9" onclick="next()" ${state.club.length>1?'':'disabled'}>Continue <span class="arrow">&rarr;</span></button></div>`;
 
-screens[10]=()=>`<div class="stagger"><div class="eyebrow">Last step</div><h1>Where should we<br>send your <span class="it">report</span>?</h1>
-  <div class="lede" style="margin-top:6px">Your Scouting Report is ready. Tell us where to deliver it.</div>
+screens[10]=()=>`<div class="stagger"><div class="eyebrow">Last step</div><h1>Send me my<br><span class="it">scouting report.</span></h1>
+  <div class="lede" style="margin-top:6px">Your results are ready. Tell us where to deliver them.</div>
   <div class="field"><label>First name</label><input id="nm" placeholder="Jordan" value="${state.name}" oninput="state.name=this.value;chkContact()"/></div>
   <div class="field"><label>Email</label><input id="em" type="email" inputmode="email" placeholder="you@email.com" value="${state.email}" oninput="state.email=this.value;chkContact()"/></div>
-  <div class="reassure">&#9201;&nbsp;<div>Instant results, plus an invite to a <b>complimentary full Athlete&rsquo;s Eye Test</b> with a specialist near your club, if your scores call for it.</div></div>
-  <div class="spacer"></div><button class="btn" id="c10" onclick="next()" disabled>Reveal my Scouting Report <span class="arrow">&rarr;</span></button></div>`;
+  <div class="reassure">&#9201;&nbsp;<div>Instant results, plus an invite to a <b>complimentary full Athlete&rsquo;s Eye Test</b> near your club, if your scores call for it.</div></div>
+  <div class="spacer"></div><button class="btn" id="c10" onclick="next()" disabled>See where my game stands <span class="arrow">&rarr;</span></button></div>`;
 function chkContact(){ tog('c10', state.name.length>1 && /.+@.+\..+/.test(state.email)); }
 function tog(id,ok){ const b=document.getElementById(id); if(b){b.disabled=!ok;} }
 
-screens[11]=()=>{ const s=totalScore(), avg=ageAvg(), mins=8+Math.floor((state.club.length*7)%14);
-  const cand=isCandidate(), fk=focusKind(), F=FOCUS[fk];
-  const office = state.club ? ('the office ~'+mins+' min from '+state.club) : ('your nearest office, ~'+mins+' min away');
-  const metrics=[['Distance acuity',acuityScore(),'Sharpness at range, your read on a fast ball.'],['Contrast',state.contrast,'Finding the ball in glare and low light.'],['Optical quality',state.clarity,'Astigmatism and overall crispness.'],['Near vision',nearScore(),'Reading the card, the menu, the rangefinder.']];
+screens[11]=()=>{ const s=totalScore(), avg=ageAvg(), gap=Math.max(0,95-s), mins=8+Math.floor((state.club.length*7)%14);
+  const cand=isCandidate(), F=FOCUS[focusKind()];
+  const office=state.club?('the office ~'+mins+' min from '+state.club):('your nearest office, ~'+mins+' min away');
+  const metrics=[['Distance acuity',acuityScore(),'Your read on a long, fast ball.'],['On-court read',state.reaction,'How fast your eyes lock on and track.'],['Contrast',state.contrast,'Finding the ball in glare and dusk.'],['Near vision',nearScore(),'The card, the menu, the rangefinder.']];
   const pathCard = cand
-    ? `<div class="path" style="background:linear-gradient(150deg,var(--gold-soft),#fdf9f1);border:1px solid #e7d6b4;opacity:0;animation:rise .5s .55s forwards"><div class="tag" style="background:var(--gold);color:#3a2c12">&#9670; Worth a closer look</div><div class="t">A full Athlete&rsquo;s Eye Test is your next step.</div><p>A few of your scores have room to gain, especially your ${F.line}. The way to know what&rsquo;s holding your game back is a full in-office Athlete&rsquo;s Eye Test with a doctor who works with active ${state.sport||'players'} and is committed to getting you back to your sharpest. No sales pitch, just a real answer.</p></div>`
-    : `<div class="path" style="background:linear-gradient(150deg,var(--green-soft),#fbf9f2);border:1px solid var(--green-tint);opacity:0;animation:rise .5s .55s forwards"><div class="tag" style="background:var(--green);color:#f3efe4">&#9733; Above standard</div><div class="t">Your eyes are reading at a high level.</div><p>You scored above the typical ${state.age||'player'} on the court, so a full workup isn&rsquo;t urgent. That is the honest call most funnels never give you. Here is what is worth your time.</p></div>`;
+    ? `<div class="path" style="background:linear-gradient(150deg,var(--gold-soft),#fdf9f1);border:1px solid #e7d6b4;opacity:0;animation:rise .5s .55s forwards"><div class="tag" style="background:var(--gold);color:#3a2c12">&#9670; You&rsquo;re leaving ${gap} points on the table</div><div class="t">That gap is real, and most of it is correctable.</div><p>You&rsquo;re reading below your peak on ${F.line}, the shots you misjudge, the volleys you reach late, the card you hold farther away. The move is a full in-office Athlete&rsquo;s Eye Test with a doctor who works with active ${state.sport||'players'} and is committed to getting you back to your sharpest. No sales pitch, just the truth and the door.</p></div>`
+    : `<div class="path" style="background:linear-gradient(150deg,var(--green-soft),#fbf9f2);border:1px solid var(--green-tint);opacity:0;animation:rise .5s .55s forwards"><div class="tag" style="background:var(--green);color:#f3efe4">&#9733; Reading above your bracket</div><div class="t">Your eyes are still ahead of the field.</div><p>You scored above the typical ${state.age||'player'} on the court, so a full workup isn&rsquo;t urgent. That is the honest call most funnels never give you. Here is what is worth your time.</p></div>`;
   const docFocus = cand ? F.clinical : 'Routine / wellness visit';
   const actions = cand
-    ? `<button class="btn" onclick="alert('Demo: books the complimentary full Athlete Eye Test and routes this income-qualified, candidacy-screened, proximity-matched lead with the full pre-screen. Doctor focus: ${F.clinical}. No procedure is promised, the doctor decides in clinic.')">Reserve my complimentary Athlete&rsquo;s Eye Test <span class="arrow">&rarr;</span></button>
-  <div class="cta-prac">with a doctor experienced with active adults &middot; ${office}</div>`
+    ? `<button class="btn" onclick="alert('Demo: books the complimentary full Athlete Eye Test and routes this income-qualified, candidacy-screened, proximity-matched lead with the full pre-screen. Doctor focus: ${F.clinical}. No procedure is promised, the doctor decides in clinic.')">Claim my complimentary Athlete&rsquo;s Eye Test <span class="arrow">&rarr;</span></button>
+  <div class="cta-prac">with a doctor who works with active adults &middot; ${office}</div>`
     : `<button class="btn" onclick="alert('Meet the practice: comprehensive eye care, dry-eye treatment, sports-vision training, premium eyewear, and a relationship for whenever your eyes do need more.')">Meet the practice &amp; services <span class="arrow">&rarr;</span></button>
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px">
     <button class="btn ghost" onclick="alert('Opens turn-by-turn directions to the nearest office.')">&#128205; Directions</button>
@@ -308,7 +288,7 @@ screens[11]=()=>{ const s=totalScore(), avg=ageAvg(), mins=8+Math.floor((state.c
     <circle id="prog" cx="85" cy="85" r="73" fill="none" stroke="url(#g)" stroke-width="11" stroke-linecap="round" stroke-dasharray="459" stroke-dashoffset="459"/>
     <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1E4636"/><stop offset="1" stop-color="#B0894B"/></linearGradient></defs></svg>
     <div class="num"><b id="bignum">0</b><span>Vision Score</span></div></div></div>
-  <div class="acu-est" style="opacity:0;animation:rise .5s .28s forwards">Estimated distance acuity <b>${state.acuity!=null?ACUITY[state.acuity][0]:'&mdash;'}</b> &middot; your-age average <b>${avg}</b> &middot; tour pro <b>95</b></div>
+  <div class="acu-est" style="opacity:0;animation:rise .5s .28s forwards">A tour pro reads at <b>95</b> &middot; your-age average is <b>${avg}</b> &middot; you scored <b>${s}</b></div>
   <div class="bars" style="opacity:0;animation:rise .5s .4s forwards">
     ${metrics.map(m=>`<div class="bar"><div class="bl"><span style="color:var(--ink)">${m[0]}</span><span>${m[1]} / 100</span></div>
       <div class="track"><i data-w="${m[1]}"></i><div class="pk" style="left:${avg}%"></div></div><div class="barnote">${m[2]}</div></div>`).join('')}</div>
@@ -337,6 +317,8 @@ function render(){
     screenEl.innerHTML = screens[step]();
     screenEl.scrollTop = 0;
     screenEl.classList.remove('out');
+    if(step===5) setTimeout(startReaction,340);
+    if(step===6) setTimeout(startFade,340);
     if(step===11) setTimeout(animateReport,80);
   }, rendering?170:0);
   rendering=true;

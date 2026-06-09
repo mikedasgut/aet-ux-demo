@@ -211,7 +211,7 @@ const SPORTS={
 function SP(){ return SPORTS[state.sport]||SPORTS.Other; }
 function sportName(){ return state.sport==='Other'?(state.sportOther||'your game'):(state.sport||'your game'); }
 
-const ACUITY=[['20/80','E F P',46],['20/60','T O Z',36],['20/40','L P E D',28],['20/30','P E C F D',22],['20/25','E D F C Z P',17],['20/20','F E L O P Z D',13]];
+const ACUITY=[['20/100','E',58],['20/70','F P',43],['20/50','T O Z',33],['20/40','L P E D',26],['20/30','P E C F D',20],['20/25','E D F C Z P',15],['20/20','F E L O P Z D',11],['20/15','D E F P O T E C',8]];
 function nearRows(){ return [['Easy',SP().nearEx,26],['Comfortable','a note from the pro shop',20],['Average','the fine print on a card',15],['Sharp','small settings and labels',12],['Excellent','the disclaimer on a pill bottle',10]]; }
 const AGE=[['Under 40','Still in my prime',92],['40s','Peak experience',88],['50s','Sharper every season',82],['60s','Seasoned competitor',74],['70+','Ageless',66]];
 const SYM_BY_SPORT={
@@ -231,7 +231,7 @@ const SYM_BY_SPORT={
 function SYM(){ return SYM_BY_SPORT[state.sport]||SYM_BY_SPORT.Other; }
 const CONTEXT=['I wear glasses, contacts, or readers','I&rsquo;ve had eye surgery before','Diabetes or glaucoma in my history','Dry or irritated eyes','None of these'];
 
-function acuityScore(){ return state.acuity==null?0:[55,63,72,81,90,97][state.acuity]; }
+function acuityScore(){ return state.acuity==null?0:[48,57,66,75,83,90,96,99][state.acuity]; }
 function nearScore(){ return state.near==null?0:[58,68,78,88,96][state.near]; }
 function totalScore(){ const v=[acuityScore(),state.reaction,state.contrast,nearScore(),state.hyper].filter(x=>x>0); return v.length?Math.round(v.reduce((a,b)=>a+b,0)/v.length):0; }
 function ageAvg(){ const a=AGE.find(x=>x[0]===state.age); return a?a[2]:80; }
@@ -327,7 +327,7 @@ screens[6]=()=>`<div class="stagger"><div class="eyebrow">Test 1 of 5 &middot; T
   <div class="method"><span class="md"></span>Snellen optotype &middot; logMAR acuity${state.cal?' &middot; calibrated':''}</div>
   <div class="surface">${ACUITY.map((r,i)=>`<div class="acuity-row ${state.acuity===i?'sel':''}" style="font-size:${r[2]}px" onclick="setAcuity(${i})">${r[1]}<div class="rowtag">${r[0]}</div></div>`).join('')}</div>
   <div class="meta">Estimates your distance acuity &middot; tap your line</div></div>`;
-function setAcuity(i){ state.acuity=i; animateChip(); flash('Distance: '+ACUITY[i][0], i>=4?'Crisp eyes.':'Good read, room to sharpen.', next); }
+function setAcuity(i){ state.acuity=i; animateChip(); flash('Distance: '+ACUITY[i][0], i>=6?'Sharp. 20/20 or better.':'Good read, room to sharpen.', next); }
 
 /* T2 reaction (modal + 3 tries, slower) */
 screens[7]=()=>{ const s=state.sport;

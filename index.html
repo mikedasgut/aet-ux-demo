@@ -9,7 +9,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Mulish:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
 <style>
   :root{ --cream:#F6F2E9; --card:#FFFFFF; --ink:#1B2B23; --muted:#6C7A70; --line:#E6E0D3;
-    --green:#1E4636; --green2:#163A2C; --green-soft:#EAF0E9; --green-tint:#CFDCCF; --gold:#B0894B; --gold-soft:#F2E8D4;
+    --green:#1E4636; --green2:#163A2C; --green-soft:#EAF0E9; --green-tint:#CFDCCF; --gold:#B0894B; --gold-soft:#F2E8D4; --gold-l:#E7C886;
     --sans:'Mulish',-apple-system,system-ui,sans-serif; --disp:'Lora',Georgia,serif; }
   *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
   html,body{height:100%}
@@ -108,6 +108,19 @@
   .feedback.on{opacity:1}
   .feedback .fb{background:rgba(27,43,35,.93);color:#f2efe5;border-radius:18px;padding:22px 28px;text-align:center;max-width:80%;box-shadow:0 24px 60px -20px rgba(0,0,0,.5)}
   .feedback .fb .big{font-family:var(--disp);font-size:26px;color:#fff;font-weight:600}.feedback .fb .sm{color:#cdd6cd;font-size:13.5px;margin-top:5px}
+  .hero{position:relative;flex:0 0 auto;overflow:hidden;background:#162a20;border-radius:20px;box-shadow:0 18px 34px -20px rgba(20,40,30,.55)}
+  .hero img{display:block;width:100%;height:100%;object-fit:cover;position:absolute;inset:0;opacity:0;transition:opacity .6s ease}
+  .hero img.on{opacity:1}
+  .hero .scrim{position:absolute;inset:0;background:linear-gradient(180deg,rgba(13,24,18,.10) 0%,rgba(13,24,18,.50) 58%,rgba(13,24,18,.88) 100%)}
+  .hero .cap{position:absolute;left:0;right:0;bottom:0;padding:17px 18px;color:#f5f1e6;z-index:2}
+  .hero .cap .eye{font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;font-weight:800;color:var(--gold-l);margin-bottom:8px}
+  .hero .cap .ttl{font-family:var(--disp);font-weight:600;font-size:clamp(25px,7.2vw,32px);line-height:1.08;color:#fff}
+  .hero .cap .ttl .it{font-style:italic;color:var(--gold-l)}
+  .hero .cap .ln{font-family:var(--disp);font-style:italic;font-size:16.5px;line-height:1.28;color:#fff;text-shadow:0 1px 12px rgba(0,0,0,.45)}
+  .hero.intro{height:clamp(196px,32vh,256px);margin-top:2px}
+  .hero.band{height:118px;margin-top:14px}
+  .hero.report{height:150px;margin-bottom:2px}
+  .card .thumb{width:54px;height:54px;border-radius:13px;flex:0 0 auto;background:#dfe6df center/cover no-repeat;border:1px solid var(--line);box-shadow:inset 0 0 0 1px rgba(255,255,255,.25)}
   @keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
   .stagger>*{opacity:0;animation:rise .5s forwards}
   .stagger>*:nth-child(1){animation-delay:.03s}.stagger>*:nth-child(2){animation-delay:.1s}.stagger>*:nth-child(3){animation-delay:.17s}
@@ -132,15 +145,29 @@ let step=0; const TOTAL=13;
 const screenEl=document.getElementById('screen'), bar=document.getElementById('bar'),
       chip=document.getElementById('chip'), chipval=document.getElementById('chipval'), back=document.getElementById('back');
 
+const U='https://images.unsplash.com/photo-';
+function img(id,w,q){ return U+id+'?w='+(w||760)+'&q='+(q||62)+'&auto=format&fit=crop'; }
+const IMG={
+  neutral:'1431324155629-1a6deb1dec8d', // stadium under the lights
+  golfHero:'1535131749006-b7f58c99034b', golfAlt:'1587174486073-ae5e5cff23aa',
+  tennisHero:'1622279457486-62dcc4a431d6', tennisAlt:'1554068865-24cecd4e34b8',
+  pickleHero:'1734161081396-0f0572a16bf6', pickleAlt:'1693142518820-78d7a05f1546',
+  otherHero:'1431324155629-1a6deb1dec8d'
+};
+
 const SPORTS={
   Pickleball:{ic:'&#127952;',ss:'Fastest game on the court',verb:'put-away',readNoun:'the ball off the paddle',nearEx:'the score scrawled on a paddle',
-    bragQ:'Where&rsquo;s your <span class="it">DUPR</span>?',brag:['Under 3.0','3.0 to 3.5','3.5 to 4.0','4.0 and up','Just here for fun'],flatter:'A real competitor.'},
+    bragQ:'Where&rsquo;s your <span class="it">DUPR</span>?',brag:['Under 3.0','3.0 to 3.5','3.5 to 4.0','4.0 and up','Just here for fun'],flatter:'A real competitor.',
+    hero:IMG.pickleHero,thumb:IMG.pickleAlt,unit:'points',arena:'the kitchen line',pro:'A pro at the net',heroLine:'Every ball you read a beat late at the net is a point gone.'},
   Golf:{ic:'&#9971;',ss:'Reading the line and the lie',verb:'putt',readNoun:'the flag from the fairway',nearEx:'the yardage on a rangefinder',
-    bragQ:'What do you <span class="it">shoot</span>?',brag:['Under 80','In the 80s','In the 90s','Triple digits','Out for the walk'],flatter:'Single digits is no accident.'},
+    bragQ:'What do you <span class="it">shoot</span>?',brag:['Under 80','In the 80s','In the 90s','Triple digits','Out for the walk'],flatter:'Single digits is no accident.',
+    hero:IMG.golfHero,thumb:IMG.golfHero,unit:'strokes',arena:'the fairway',pro:'A tour pro',heroLine:'Every green you misread is strokes you never get back.'},
   Tennis:{ic:'&#127934;',ss:'Reading pace and spin',verb:'return',readNoun:'a ball with pace',nearEx:'the tension stamped on a racquet',
-    bragQ:'What&rsquo;s your <span class="it">level</span>?',brag:['3.0','3.5','4.0','4.5 and up','I just rally'],flatter:'That is tournament territory.'},
+    bragQ:'What&rsquo;s your <span class="it">level</span>?',brag:['3.0','3.5','4.0','4.5 and up','I just rally'],flatter:'That is tournament territory.',
+    hero:IMG.tennisHero,thumb:IMG.tennisHero,unit:'points',arena:'the baseline',pro:'A touring pro',heroLine:'Every serve you pick up late is a point you hand over.'},
   Other:{ic:'&#127950;',ss:'Another game, or a few',verb:'play',readNoun:'a fast-moving target',nearEx:'the fine print',
-    bragQ:'How <span class="it">competitive</span> are you?',brag:['I play to win','Weekend warrior','Social and casual','Just staying active'],flatter:'Respect.'}
+    bragQ:'How <span class="it">competitive</span> are you?',brag:['I play to win','Weekend warrior','Social and casual','Just staying active'],flatter:'Respect.',
+    hero:IMG.otherHero,thumb:IMG.otherHero,unit:'points',arena:'the field',pro:'An elite competitor',heroLine:'Every beat your eyes lag is a play you give away.'}
 };
 function SP(){ return SPORTS[state.sport]||SPORTS.Other; }
 function sportName(){ return state.sport==='Other'?(state.sportOther||'your game'):(state.sport||'your game'); }
@@ -191,9 +218,9 @@ function ctxFlags(){ const f=[]; if(state.context.includes(1))f.push('prior eye 
 const screens=[];
 
 screens[0]=()=>`<div class="stagger">
-  <div class="eyebrow">For players who refuse to slow down</div>
-  <h1>The ball<br><span class="it">doesn&rsquo;t lie.</span></h1>
-  <div class="lede">You haven&rsquo;t lost a step. But your eyes might be costing you the ones you can&rsquo;t see. A few quick tests, and you&rsquo;ll know exactly what your game is leaving on the table.</div>
+  <div class="hero intro"><img src="${img(IMG.neutral,820,64)}" alt="" onload="this.classList.add('on')"/><div class="scrim"></div>
+    <div class="cap"><div class="eye">For players who refuse to slow down</div><div class="ttl">The ball<br><span class="it">doesn&rsquo;t lie.</span></div></div></div>
+  <div class="lede" style="margin-top:14px">You haven&rsquo;t lost a step. But your eyes might be costing you the ones you can&rsquo;t see. A few quick tests, and you&rsquo;ll know exactly what your game is leaving on the table.</div>
   <div class="spacer"></div>
   <button class="btn" onclick="next()">Find my edge <span class="arrow">&rarr;</span></button>
   <div class="meta"><span class="pulse"></span> No glasses &middot; no commitment &middot; just your eyes vs the test</div>
@@ -202,13 +229,15 @@ screens[0]=()=>`<div class="stagger">
 screens[1]=()=>{ const o=Object.keys(SPORTS).map(k=>[k,SPORTS[k]]);
   return `<div class="stagger"><div class="eyebrow">Your arena</div><h1>Which game<br><span class="it">owns</span> you?</h1>
   <div class="lede" style="margin-top:8px">We tune every test, and every word, to how you read the ball.</div>
-  <div class="cards">${o.map(([k,c])=>`<div class="card ${state.sport===k?'sel':''}" data-other="${k==='Other'?1:''}" onclick="selSingle(this,'sport','${k}')"><div class="ic">${c.ic}</div><div><div class="tt">${k==='Other'?'Another sport':k}</div><div class="ss">${c.ss}</div></div><div class="chk">${state.sport===k?'&#10003;':''}</div></div>`).join('')}</div>
+  <div class="cards">${o.map(([k,c])=>`<div class="card ${state.sport===k?'sel':''}" data-other="${k==='Other'?1:''}" onclick="selSingle(this,'sport','${k}')"><div class="thumb" style="background-image:url('${img(c.thumb,150,55)}')"></div><div><div class="tt">${k==='Other'?'Another sport':k}</div><div class="ss">${c.ss}</div></div><div class="chk">${state.sport===k?'&#10003;':''}</div></div>`).join('')}</div>
   <div class="otherfield" style="display:${state.sport==='Other'?'block':'none'}"><input placeholder="Your sport" value="${state.sportOther}" oninput="state.sportOther=this.value"/></div>
   <div class="spacer"></div><button class="btn" onclick="next()" ${state.sport?'':'disabled'}>Continue <span class="arrow">&rarr;</span></button></div>`; };
 
 screens[2]=()=>{ const c=SP();
   return `<div class="stagger"><div class="eyebrow">Let&rsquo;s talk game</div><h1>${c.bragQ}</h1>
-  <div class="lede" style="margin-top:8px">Be honest. We&rsquo;ll keep it between us.</div>
+  <div class="hero band"><img src="${img(c.hero,760,62)}" alt="" onload="this.classList.add('on')"/><div class="scrim"></div>
+    <div class="cap"><div class="ln">Out on ${c.arena}, what do you bring?</div></div></div>
+  <div class="lede" style="margin-top:12px">Be honest. We&rsquo;ll keep it between us.</div>
   <div class="chips">${c.brag.map(b=>`<div class="chip ${state.skill===b?'sel':''}" onclick="pickSkill(this,'${b}')"><span class="radio"></span>${b}</div>`).join('')}</div>
   <div class="spacer"></div><button class="btn" onclick="next()" ${state.skill?'':'disabled'}>Continue <span class="arrow">&rarr;</span></button></div>`; };
 function pickSkill(el,b){ selSingle(el,'skill',b); const i=SP().brag.indexOf(b); if(i<=1) flash('Nice.', SP().flatter, null); }
@@ -306,7 +335,7 @@ screens[12]=()=>{ const s=totalScore(), avg=ageAvg(), gap=Math.max(0,95-s), mins
   const office=state.club?('the office ~'+mins+' min from '+state.club):('your nearest office, ~'+mins+' min away');
   const metrics=[['Distance acuity',acuityScore(),'Your read on a long, fast ball.'],['On-court read',state.reaction,'How fast your eyes lock on and track.'],['Contrast',state.contrast,'Finding the ball in glare and dusk.'],['Near vision',nearScore(),'The card, the menu, the rangefinder.']];
   const pathCard = cand
-    ? `<div class="path" style="background:linear-gradient(150deg,var(--gold-soft),#fdf9f1);border:1px solid #e7d6b4;opacity:0;animation:rise .5s .55s forwards"><div class="tag" style="background:var(--gold);color:#3a2c12">&#9670; You&rsquo;re leaving ${gap} points on the table</div><div class="t">That gap is real, and most of it is correctable.</div><p>You&rsquo;re reading below your peak on ${F.line}, the shots you misjudge, the reactions a beat late, the print you hold farther away. The move is a full in-office Athlete&rsquo;s Eye Test with a doctor who works with active ${sportName()} players and is committed to getting you back to your sharpest. No sales pitch, just the truth and the door.</p></div>`
+    ? `<div class="path" style="background:linear-gradient(150deg,var(--gold-soft),#fdf9f1);border:1px solid #e7d6b4;opacity:0;animation:rise .5s .55s forwards"><div class="tag" style="background:var(--gold);color:#3a2c12">&#9670; You&rsquo;re leaving ${gap} ${SP().unit} on the table</div><div class="t">That gap is real, and most of it is correctable.</div><p>You&rsquo;re reading below your peak on ${F.line}, the shots you misjudge, the reactions a beat late, the print you hold farther away. The move is a full in-office Athlete&rsquo;s Eye Test with a doctor who works with active ${sportName()} players and is committed to getting you back to your sharpest. No sales pitch, just the truth and the door.</p></div>`
     : `<div class="path" style="background:linear-gradient(150deg,var(--green-soft),#fbf9f2);border:1px solid var(--green-tint);opacity:0;animation:rise .5s .55s forwards"><div class="tag" style="background:var(--green);color:#f3efe4">&#9733; Reading above your bracket</div><div class="t">Your eyes are still ahead of the field.</div><p>You scored above the typical ${state.age||'player'} on the court, so a full workup isn&rsquo;t urgent. That is the honest call most funnels never give you. Here is what is worth your time.</p></div>`;
   const docFocus = cand ? F.clinical : 'Routine / wellness visit';
   const actions = cand
@@ -319,13 +348,14 @@ screens[12]=()=>{ const s=totalScore(), avg=ageAvg(), gap=Math.max(0,95-s), mins
   <button class="btn ghost" style="margin-top:10px" onclick="alert('Schedules a routine exam or connects you to the office for basic vision needs.')">Book a routine exam or contact the office</button>
   <div class="cta-prac">${office}</div>`;
   return `<div>
-  <div class="eyebrow" style="animation:rise .5s forwards">${state.name||'Athlete'}&rsquo;s Vision Scouting Report</div>
+  <div class="hero report" style="opacity:0;animation:rise .55s forwards"><img src="${img(SP().hero,820,62)}" alt="" onload="this.classList.add('on')"/><div class="scrim"></div>
+    <div class="cap"><div class="eye">${state.name||'Athlete'}&rsquo;s Vision Scouting Report</div><div class="ln">${SP().heroLine}</div></div></div>
   <div class="ring-wrap" style="opacity:0;animation:rise .6s .1s forwards"><div class="ring">
     <svg width="170" height="170"><circle cx="85" cy="85" r="73" fill="none" stroke="#e7e1d4" stroke-width="11"/>
     <circle id="prog" cx="85" cy="85" r="73" fill="none" stroke="url(#g)" stroke-width="11" stroke-linecap="round" stroke-dasharray="459" stroke-dashoffset="459"/>
     <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1E4636"/><stop offset="1" stop-color="#B0894B"/></linearGradient></defs></svg>
     <div class="num"><b id="bignum">0</b><span>Vision Score</span></div></div></div>
-  <div class="acu-est" style="opacity:0;animation:rise .5s .28s forwards">A tour pro reads at <b>95</b> &middot; your-age average is <b>${avg}</b> &middot; you scored <b>${s}</b></div>
+  <div class="acu-est" style="opacity:0;animation:rise .5s .28s forwards">${SP().pro} reads at <b>95</b> &middot; your-age average is <b>${avg}</b> &middot; you scored <b>${s}</b></div>
   <div class="bars" style="opacity:0;animation:rise .5s .4s forwards">
     ${metrics.map(m=>`<div class="bar"><div class="bl"><span style="color:var(--ink)">${m[0]}</span><span>${m[1]} / 100</span></div>
       <div class="track"><i data-w="${m[1]}"></i><div class="pk" style="left:${avg}%"></div></div><div class="barnote">${m[2]}</div></div>`).join('')}</div>

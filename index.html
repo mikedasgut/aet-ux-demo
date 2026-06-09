@@ -289,9 +289,31 @@ function tog(id,ok){ const b=document.getElementById(id); if(b){b.disabled=!ok;}
 /* report */
 function ctxFlags(){ const f=[]; if(state.context.includes(1))f.push('prior eye surgery'); if(state.context.includes(2))f.push('diabetes/glaucoma hx'); if(state.context.includes(3))f.push('dry eye'); return f.length?f.join(', '):'none flagged'; }
 function correction(){ return state.context.includes(0)?'glasses / contacts / readers':'none'; }
-screens[11]=()=>{ const s=totalScore(), p=PATHS[procedurePath()], avg=ageAvg();
-  const mins=8+Math.floor((state.club.length*7)%14);
+function isCandidate(){
+  if(state.context.includes(0)) return true;                 // wears glasses/contacts/readers => refractive or lens need
+  if(totalScore() < Math.min(ageAvg(),78)) return true;       // overall below age-peer / floor
+  if(state.near!=null && state.near<=1) return true;          // weak near => presbyopia
+  if(state.contrast>0 && state.contrast<70) return true;      // weak contrast => lens/cataract
+  if(state.acuity!=null && state.acuity<=1) return true;      // weak distance => refractive
+  return false;
+}
+screens[11]=()=>{ const s=totalScore(), avg=ageAvg(), mins=8+Math.floor((state.club.length*7)%14);
+  const cand=isCandidate(), p=PATHS[procedurePath()];
+  const office = state.club ? ('the office ~'+mins+' min from '+state.club) : ('your nearest office, ~'+mins+' min away');
   const metrics=[['Distance acuity',acuityScore(),'Sharpness at range, your read on a fast ball.'],['Contrast',state.contrast,'Finding the ball in glare and low light.'],['Optical quality',state.clarity,'Astigmatism and overall crispness.'],['Near vision',nearScore(),'Reading the card, the menu, the rangefinder.']];
+  const pathCard = cand
+    ? `<div class="path" style="opacity:0;animation:rise .5s .55s forwards"><div class="tag">&#9670; Your path &middot; ${p.tag}</div><div class="t">${p.t}</div><p>${p.body}</p></div>`
+    : `<div class="path" style="opacity:0;animation:rise .5s .55s forwards;background:linear-gradient(150deg,var(--green-soft),#fbf9f2);border-color:var(--green-tint)"><div class="tag" style="background:var(--green);color:#f3efe4">&#9733; Above standard</div><div class="t">Your eyes are reading at a high level.</div><p>You scored above the typical ${state.age||'player'} on the court, so surgery is not the move right now. That is the honest call most funnels never give you. Here is what is worth your time.</p></div>`;
+  const docPath = cand ? p.tag : 'Performer, nurture + routine care';
+  const actions = cand
+    ? `<button class="btn" onclick="alert('Demo: books the complimentary in-clinic test and routes this income-qualified, candidacy-screened, proximity-matched lead with the full pre-screen and path: ${p.tag}.')">${p.cta} <span class="arrow">&rarr;</span></button>
+  <div class="cta-prac">at ${office} &middot; about 20 minutes</div>`
+    : `<button class="btn" onclick="alert('Meet the practice: comprehensive eye care, dry-eye treatment, sports-vision training, premium eyewear, and your future lens options.')">Meet the practice &amp; services <span class="arrow">&rarr;</span></button>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px">
+    <button class="btn ghost" onclick="alert('Opens turn-by-turn directions to the nearest office.')">&#128205; Directions</button>
+    <button class="btn ghost" onclick="alert('Shares the test so your partner can match up against your score. A built-in referral loop.')">&#129309; Challenge a partner</button></div>
+  <button class="btn ghost" style="margin-top:10px" onclick="alert('Schedules a routine exam or connects you to the office for basic vision needs outside the AET.')">Book a routine exam or contact the office</button>
+  <div class="cta-prac">${office}</div>`;
   return `<div>
   <div class="eyebrow" style="animation:rise .5s forwards">${state.name||'Athlete'}&rsquo;s Vision Scouting Report</div>
   <div class="ring-wrap" style="opacity:0;animation:rise .6s .1s forwards"><div class="ring">
@@ -303,7 +325,7 @@ screens[11]=()=>{ const s=totalScore(), p=PATHS[procedurePath()], avg=ageAvg();
   <div class="bars" style="opacity:0;animation:rise .5s .4s forwards">
     ${metrics.map(m=>`<div class="bar"><div class="bl"><span style="color:var(--ink)">${m[0]}</span><span>${m[1]} / 100</span></div>
       <div class="track"><i data-w="${m[1]}"></i><div class="pk" style="left:${avg}%"></div></div><div class="barnote">${m[2]}</div></div>`).join('')}</div>
-  <div class="path" style="opacity:0;animation:rise .5s .55s forwards"><div class="tag">&#9670; Your path &middot; ${p.tag}</div><div class="t">${p.t}</div><p>${p.body}</p></div>
+  ${pathCard}
   <div class="docbox" style="opacity:0;animation:rise .5s .65s forwards"><div class="h">&#128203; Chair-ready pre-screen your doctor receives</div>
     <ul>
       <li>Sport &amp; club <b>${state.sport||'&mdash;'} &middot; ${state.club||'&mdash;'}</b></li>
@@ -313,11 +335,10 @@ screens[11]=()=>{ const s=totalScore(), p=PATHS[procedurePath()], avg=ageAvg();
       <li>Current correction <b>${correction()}</b></li>
       <li>Flags <b>${ctxFlags()}</b></li>
       <li>Nearest office <b>~${mins} min</b></li>
-      <li>Likely path <b>${p.tag}</b></li>
+      <li>Likely path <b>${docPath}</b></li>
     </ul></div>
   <div class="spacer" style="min-height:18px"></div>
-  <button class="btn" onclick="alert('Demo handoff: books the complimentary in-clinic test and routes this income-qualified, candidacy-screened, proximity-matched lead to the practice with the full pre-screen above and the procedure path (${p.tag}).')">${p.cta} <span class="arrow">&rarr;</span></button>
-  <div class="cta-prac">at the specialist <b>~${mins} min</b> from ${state.club||'you'} &middot; about 20 minutes</div>
+  ${actions}
   <div class="disc">UX model &middot; not a clinical diagnosis &middot; concept by ajile Media for Dancecard</div></div>`; };
 
 let rendering=false;

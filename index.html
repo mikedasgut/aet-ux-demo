@@ -72,6 +72,18 @@
   .arena{position:relative;height:250px;border-radius:18px;margin:14px 0;overflow:hidden;display:grid;place-items:center;flex:0 0 auto;background:radial-gradient(95% 130% at 50% 0,#eef3ee,#dde7de);border:1px solid var(--line)}
   .arena .net{position:absolute;left:0;right:0;top:50%;height:2px;background:repeating-linear-gradient(90deg,#b7c4b8 0 8px,transparent 8px 16px)}
   .gball{width:52px;height:52px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff7d8,var(--gold) 55%,#94702f);box-shadow:0 8px 20px rgba(120,90,40,.4);will-change:filter,transform,opacity}
+  .arena.golf{background:linear-gradient(180deg,#d4e8cb 0%,#a9d49a 64%,#8cc47c 100%)}
+  .g-flag{position:absolute;left:16px;right:16px;top:40px;display:flex;align-items:center;gap:7px;transition:top .15s}
+  .g-flag .g-line{flex:1;height:0;border-top:2px dashed rgba(18,45,28,.5)}
+  .g-flag .g-pin{font-size:21px;filter:drop-shadow(0 2px 3px rgba(0,0,0,.2))}
+  .g-marker{position:absolute;left:16px;right:16px;top:50%;height:5px;border-radius:3px;background:var(--gold);box-shadow:0 1px 4px rgba(120,90,40,.5)}
+  .g-marker .g-mlabel{position:absolute;right:0;top:-15px;font-size:9px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--green2)}
+  .g-yard{position:absolute;top:9px;right:11px;font-family:var(--disp);font-size:17px;font-weight:600;color:var(--green2);background:rgba(255,255,255,.72);padding:2px 9px;border-radius:9px}
+  .arena.serve{background:radial-gradient(100% 80% at 50% -10%,#bfe0c6,#7eb88b 90%)}
+  .arena.serve::before{content:"";position:absolute;left:50%;top:0;bottom:54px;width:2px;transform:translateX(-50%);background:repeating-linear-gradient(180deg,rgba(255,255,255,.55) 0 10px,transparent 10px 20px)}
+  .sv-line{position:absolute;left:0;right:0;bottom:54px;height:2px;background:rgba(18,45,28,.55)}
+  .sv-line span{position:absolute;right:11px;top:-15px;font-size:9px;font-weight:800;letter-spacing:.14em;color:var(--green2)}
+  .svball{width:18px;height:18px;left:50%;top:24px;transform:translateX(-50%);position:absolute;background:radial-gradient(circle at 35% 30%,#f3ff9e,#cde85a 55%,#9bb53a);box-shadow:0 4px 12px rgba(120,140,40,.45)}
   .tovl{position:absolute;inset:0;display:grid;place-items:center;background:rgba(238,243,238,.93);backdrop-filter:blur(2px);padding:18px;text-align:center}
   .ovl-card{max-width:300px}
   .ovl-t{font-family:var(--disp);font-size:20px;font-weight:600;color:var(--green2);margin-bottom:7px}
@@ -162,16 +174,16 @@ const IMG={
 const SPORTS={
   Pickleball:{ic:'&#127952;',ss:'Fastest game on the court',verb:'put-away',readNoun:'the ball off the paddle',nearEx:'the score scrawled on a paddle',
     bragQ:'Where&rsquo;s your <span class="it">DUPR</span>?',brag:['Under 3.0','3.0 to 3.5','3.5 to 4.0','4.0 and up','Just here for fun'],flatter:'A real competitor.',
-    hero:IMG.pickleHero,thumb:IMG.pickleAlt,unit:'points',arena:'the kitchen line',pro:'A pro at the net',heroLine:'Every ball you read a beat late at the net is a point gone.'},
+    hero:IMG.pickleHero,thumb:IMG.pickleAlt,unit:'points',arena:'the kitchen line',pro:'A pro at the net',heroLine:'Every ball you read a beat late at the net is a point gone.',readMetric:'Net read',readNote:'Reacting to fast hands at the net.'},
   Golf:{ic:'&#9971;',ss:'Reading the line and the lie',verb:'putt',readNoun:'the flag from the fairway',nearEx:'the yardage on a rangefinder',
     bragQ:'What do you <span class="it">shoot</span>?',brag:['Under 80','In the 80s','In the 90s','Triple digits','Out for the walk'],flatter:'Single digits is no accident.',
-    hero:IMG.golfHero,thumb:IMG.golfHero,unit:'strokes',arena:'the fairway',pro:'A tour pro',heroLine:'Every green you misread is strokes you never get back.'},
+    hero:IMG.golfHero,thumb:IMG.golfHero,unit:'strokes',arena:'the fairway',pro:'A tour pro',heroLine:'Every green you misread is strokes you never get back.',readMetric:'Distance read',readNote:'Judging depth and distance to the pin.'},
   Tennis:{ic:'&#127934;',ss:'Reading pace and spin',verb:'return',readNoun:'a ball with pace',nearEx:'the tension stamped on a racquet',
     bragQ:'What&rsquo;s your <span class="it">level</span>?',brag:['3.0','3.5','4.0','4.5 and up','I just rally'],flatter:'That is tournament territory.',
-    hero:IMG.tennisHero,thumb:IMG.tennisHero,unit:'points',arena:'the baseline',pro:'A touring pro',heroLine:'Every serve you pick up late is a point you hand over.'},
+    hero:IMG.tennisHero,thumb:IMG.tennisHero,unit:'points',arena:'the baseline',pro:'A touring pro',heroLine:'Every serve you pick up late is a point you hand over.',readMetric:'Return read',readNote:'Locking onto a serve with pace.'},
   Other:{ic:'&#127950;',ss:'Another game, or a few',verb:'play',readNoun:'a fast-moving target',nearEx:'the fine print',
     bragQ:'How <span class="it">competitive</span> are you?',brag:['I play to win','Weekend warrior','Social and casual','Just staying active'],flatter:'Respect.',
-    hero:IMG.otherHero,thumb:IMG.otherHero,unit:'points',arena:'the field',pro:'An elite competitor',heroLine:'Every beat your eyes lag is a play you give away.'}
+    hero:IMG.otherHero,thumb:IMG.otherHero,unit:'points',arena:'the field',pro:'An elite competitor',heroLine:'Every beat your eyes lag is a play you give away.',readMetric:'On-court read',readNote:'How fast your eyes lock on and track.'}
 };
 function SP(){ return SPORTS[state.sport]||SPORTS.Other; }
 function sportName(){ return state.sport==='Other'?(state.sportOther||'your game'):(state.sport||'your game'); }
@@ -274,10 +286,65 @@ screens[5]=()=>`<div class="stagger"><div class="eyebrow">Test 1 of 4 &middot; T
 function setAcuity(i){ state.acuity=i; animateChip(); flash('Distance: '+ACUITY[i][0], i>=4?'Crisp eyes.':'Good read, room to sharpen.', next); }
 
 /* T2 reaction (modal + 3 tries, slower) */
-screens[6]=()=>`<div class="stagger"><div class="eyebrow">Test 2 of 4 &middot; The read</div><h1>Catch it at its<br><span class="it">sharpest.</span></h1>
+screens[6]=()=>{ const s=state.sport;
+  if(s==='Golf') return golfScreen();
+  if(s==='Tennis'||s==='Pickleball') return serveScreen();
+  return genScreen(); };
+function readInit(){ const s=state.sport;
+  if(s==='Golf') return grInit();
+  if(s==='Tennis'||s==='Pickleball') return svInit();
+  return reactInit(); }
+
+/* generic read (Other) */
+function genScreen(){ return `<div class="stagger"><div class="eyebrow">Test 2 of 4 &middot; The read</div><h1>Catch it at its<br><span class="it">sharpest.</span></h1>
   <div class="lede" style="margin-top:6px">Your eyes vs a moving target.</div>
   <div class="arena" id="rarena" onclick="reactTap()"><div class="net"></div><div class="gball" id="rball" style="filter:blur(4px)"></div><div class="tovl" id="rovl"></div></div>
-  <div class="meta">Up to 3 tries &middot; we keep your best</div></div>`;
+  <div class="meta">Up to 3 tries &middot; we keep your best</div></div>`; }
+
+/* golf: range the flag (stop the climbing marker level with the pin) */
+function golfScreen(){ return `<div class="stagger"><div class="eyebrow">Test 2 of 4 &middot; Range the flag</div><h1>Lock the <span class="it">distance.</span></h1>
+  <div class="lede" style="margin-top:6px">A marker climbs toward the pin. Tap to stop it dead level with the flag.</div>
+  <div class="arena golf" id="grarena" onclick="grTap()"><div class="g-flag" id="grflag"><span class="g-line"></span><span class="g-pin">&#9971;</span></div><div class="g-marker" id="grmark"><span class="g-mlabel">carry</span></div><div class="g-yard" id="gryard">&mdash;</div><div class="tovl" id="rovl"></div></div>
+  <div class="meta">Up to 3 tries &middot; we keep your best</div></div>`; }
+const GR={best:0,attempts:0,live:false,raf:null,targetY:0,pad:30};
+function grInit(){ GR.best=state.reaction||0; GR.attempts=0; GR.live=false;
+  setOvl('rovl', introHtml('Range the flag','A marker climbs the fairway toward the pin. Tap to stop it dead level with the flag. The closer you lock the distance, the sharper your depth read.','grBegin')); }
+function grBegin(){ countdown('rovl', grGo); }
+function grGo(){ const mark=document.getElementById('grmark'), arena=document.getElementById('grarena'), flag=document.getElementById('grflag'); if(!mark||!arena)return;
+  GR.live=true; hideOvl('rovl'); const H=arena.clientHeight, pad=GR.pad, range=H-pad*2;
+  GR.targetY=pad+range*(0.16+Math.random()*0.62); if(flag) flag.style.top=GR.targetY+'px';
+  const period=1500-Math.min(GR.attempts*180,420), t0=performance.now();
+  const loop=(t)=>{ if(!GR.live)return; const ph=((t-t0)/period)%1, tri=ph<0.5?ph*2:2-ph*2; const y=pad+(1-tri)*range;
+    mark.style.top=y+'px'; mark.dataset.y=y; const yd=document.getElementById('gryard'); if(yd) yd.textContent=Math.round(60+((H-pad-y)/range)*180)+' yds';
+    GR.raf=requestAnimationFrame(loop); };
+  GR.raf=requestAnimationFrame(loop); }
+function grTap(){ if(!GR.live)return; GR.live=false; cancelAnimationFrame(GR.raf);
+  const mark=document.getElementById('grmark'), arena=document.getElementById('grarena'); const y=parseFloat(mark.dataset.y||0), H=arena.clientHeight, pad=GR.pad, range=H-pad*2;
+  const dist=Math.abs(y-GR.targetY)/range, sc=Math.max(42,Math.round(100-dist*125)); GR.best=Math.max(GR.best,sc); state.reaction=GR.best; GR.attempts++; animateChip();
+  setOvl('rovl', resultHtml('Distance read',sc,GR.best,GR.attempts, dist<0.05?'Flagged it. Pure depth control.':(dist<0.15?'Close read, just off the pin.':'Misjudged the distance, and very trainable.'),'grBegin')); }
+
+/* tennis / pickleball: read the serve (tap as the ball crosses the line) */
+function serveScreen(){ return `<div class="stagger"><div class="eyebrow">Test 2 of 4 &middot; Read the serve</div><h1>Pick it up <span class="it">clean.</span></h1>
+  <div class="lede" style="margin-top:6px">A ball fires at you. Tap the instant it crosses the line.</div>
+  <div class="arena serve" id="svarena" onclick="svTap()"><div class="sv-line"><span>STRIKE</span></div><div class="gball svball" id="svball"></div><div class="tovl" id="rovl"></div></div>
+  <div class="meta">Up to 3 tries &middot; we keep your best</div></div>`; }
+const SV={best:0,attempts:0,live:false,raf:null};
+function svInit(){ SV.best=state.reaction||0; SV.attempts=0; SV.live=false;
+  setOvl('rovl', introHtml('Read the serve','A ball fires from across the court. Tap the instant it crosses the strike line, the way you&rsquo;d pick up a fast serve. Catch it on the line and your read scores high.','svBegin')); }
+function svBegin(){ countdown('rovl', svGo); }
+function svGo(){ const ball=document.getElementById('svball'), arena=document.getElementById('svarena'); if(!ball||!arena)return;
+  SV.live=true; hideOvl('rovl'); const H=arena.clientHeight, top=24, lineY=H-56; const dur=1400-Math.min(SV.attempts*220,560), t0=performance.now();
+  const loop=(t)=>{ if(!SV.live)return; const p=(t-t0)/dur;
+    if(p>=1.2){ SV.live=false; cancelAnimationFrame(SV.raf); SV.attempts++; const sc=44; SV.best=Math.max(SV.best,sc); state.reaction=SV.best; animateChip();
+      setOvl('rovl', resultHtml('Serve read',sc,SV.best,SV.attempts,'It blew right past you. That lag is the fixable part.','svBegin')); return; }
+    const y=top+p*(lineY-top), sz=18+Math.min(p,1)*30; ball.style.top=y+'px'; ball.style.width=sz+'px'; ball.style.height=sz+'px'; ball.dataset.p=p;
+    SV.raf=requestAnimationFrame(loop); };
+  SV.raf=requestAnimationFrame(loop); }
+function svTap(){ if(!SV.live)return; SV.live=false; cancelAnimationFrame(SV.raf);
+  const ball=document.getElementById('svball'); const p=parseFloat(ball.dataset.p||0); const d=Math.abs(1-p), sc=Math.max(42,Math.round(100-d*150));
+  SV.best=Math.max(SV.best,sc); state.reaction=SV.best; SV.attempts++; animateChip();
+  setOvl('rovl', resultHtml('Serve read',sc,SV.best,SV.attempts, d<0.05?'Dead on the line. Elite read.':(d<0.16?'Caught it, a touch early or late.':'Mistimed the read, and very trainable.'),'svBegin')); }
+
 const RT={best:0,attempts:0,live:false,raf:null};
 function reactInit(){ RT.best=state.reaction||0; RT.attempts=0; RT.live=false;
   setOvl('rovl', introHtml('Catch it at its sharpest','A ball will pulse in and out of focus. Tap the instant it looks sharpest, the way you&rsquo;d time a '+SP().verb+'.','reactBegin')); }
@@ -356,7 +423,7 @@ function tog(id,ok){ const b=document.getElementById(id); if(b){b.disabled=!ok;}
 screens[12]=()=>{ const s=totalScore(), avg=ageAvg(), gap=Math.max(0,95-s), mins=8+Math.floor((state.club.length*7)%14);
   const cand=isCandidate(), F=FOCUS[focusKind()];
   const office=state.club?('the office ~'+mins+' min from '+state.club):('your nearest office, ~'+mins+' min away');
-  const metrics=[['Distance acuity',acuityScore(),'Your read on a long, fast ball.'],['On-court read',state.reaction,'How fast your eyes lock on and track.'],['Contrast',state.contrast,'Finding the ball in glare and dusk.'],['Near vision',nearScore(),'The card, the menu, the rangefinder.']];
+  const metrics=[['Distance acuity',acuityScore(),'Your read on a long, fast ball.'],[SP().readMetric,state.reaction,SP().readNote],['Contrast',state.contrast,'Finding the ball in glare and dusk.'],['Near vision',nearScore(),'The card, the menu, the rangefinder.']];
   const pathCard = cand
     ? `<div class="path" style="background:linear-gradient(150deg,var(--gold-soft),#fdf9f1);border:1px solid #e7d6b4;opacity:0;animation:rise .5s .55s forwards"><div class="tag" style="background:var(--gold);color:#3a2c12">&#9670; You&rsquo;re leaving ${gap} ${SP().unit} on the table</div><div class="t">That gap is real, and most of it is correctable.</div><p>You&rsquo;re reading below your peak on ${F.line}, the shots you misjudge, the reactions a beat late, the print you hold farther away. The move is a full in-office Athlete&rsquo;s Eye Test with a doctor who works with active ${sportName()} players and is committed to getting you back to your sharpest. No sales pitch, just the truth and the door.</p></div>`
     : `<div class="path" style="background:linear-gradient(150deg,var(--green-soft),#fbf9f2);border:1px solid var(--green-tint);opacity:0;animation:rise .5s .55s forwards"><div class="tag" style="background:var(--green);color:#f3efe4">&#9733; Reading above your bracket</div><div class="t">Your eyes are still ahead of the field.</div><p>You scored above the typical ${state.age||'player'} on the court, so a full workup isn&rsquo;t urgent. That is the honest call most funnels never give you. Here is what is worth your time.</p></div>`;
@@ -408,7 +475,7 @@ function render(){
     screenEl.innerHTML = screens[step]();
     screenEl.scrollTop = 0;
     screenEl.classList.remove('out');
-    if(step===6) setTimeout(reactInit,320);
+    if(step===6) setTimeout(readInit,320);
     if(step===7) setTimeout(fadeInit,320);
     if(step===12) setTimeout(animateReport,80);
   }, rendering?170:0);

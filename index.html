@@ -185,17 +185,17 @@ screens[0]=()=>`<div class="stagger">
 screens[1]=()=>{ const o=[['Pickleball','&#127952;','Fastest game on the court'],['Golf','&#9971;','Tracking the line and the lie'],['Tennis','&#127934;','Reading pace and spin']];
   return `<div class="stagger"><div class="eyebrow">Your arena</div><h1>Which game<br><span class="it">owns</span> you?</h1>
   <div class="lede" style="margin-top:8px">We tune every test to how you read the ball.</div>
-  <div class="cards">${o.map(x=>`<div class="card ${state.sport===x[0]?'sel':''}" onclick="state.sport='${x[0]}';render()"><div class="ic">${x[1]}</div><div><div class="tt">${x[0]}</div><div class="ss">${x[2]}</div></div><div class="chk">${state.sport===x[0]?'&#10003;':''}</div></div>`).join('')}</div>
+  <div class="cards">${o.map(x=>`<div class="card ${state.sport===x[0]?'sel':''}" onclick="selSingle(this,'sport','${x[0]}')"><div class="ic">${x[1]}</div><div><div class="tt">${x[0]}</div><div class="ss">${x[2]}</div></div><div class="chk">${state.sport===x[0]?'&#10003;':''}</div></div>`).join('')}</div>
   <div class="spacer"></div><button class="btn" onclick="next()" ${state.sport?'':'disabled'}>Continue <span class="arrow">&rarr;</span></button></div>`; };
 
 screens[2]=()=>`<div class="stagger"><div class="eyebrow">Your prime</div><h1>Which decade are<br>you <span class="it">playing</span> in?</h1>
   <div class="lede" style="margin-top:8px">Your eyes change with the years, mostly without telling you. This tunes your read.</div>
-  <div class="grid2">${AGE.map(a=>`<div class="tile ${state.age===a[0]?'sel':''}" onclick="state.age='${a[0]}';render()"><b>${a[0]}</b><span>${a[1]}</span></div>`).join('')}</div>
+  <div class="grid2">${AGE.map(a=>`<div class="tile ${state.age===a[0]?'sel':''}" onclick="selSingle(this,'age','${a[0]}')"><b>${a[0]}</b><span>${a[1]}</span></div>`).join('')}</div>
   <div class="spacer"></div><button class="btn" onclick="next()" ${state.age?'':'disabled'}>Continue <span class="arrow">&rarr;</span></button></div>`;
 
 screens[3]=()=>`<div class="stagger"><div class="eyebrow">The honest answer</div><h1>Where does it<br><span class="it">cost</span> you?</h1>
   <div class="lede" style="margin-top:8px">The thing that&rsquo;s quietly bleeding shots. Pick the one that stings most.</div>
-  <div class="chips">${SYMPTOMS.map((p,i)=>`<div class="chip ${state.pain===p[1]?'sel':''}" onclick="state.pain=SYMPTOMS[${i}][1];render()"><span class="radio"></span><span class="e">${p[0]}</span>${p[1]}</div>`).join('')}</div>
+  <div class="chips">${SYMPTOMS.map((p,i)=>`<div class="chip ${state.pain===p[1]?'sel':''}" onclick="selSingle(this,'pain',SYMPTOMS[${i}][1])"><span class="radio"></span><span class="e">${p[0]}</span>${p[1]}</div>`).join('')}</div>
   <div class="spacer"></div><button class="btn" onclick="next()" ${state.pain?'':'disabled'}>Continue <span class="arrow">&rarr;</span></button></div>`;
 
 /* T1 acuity (tap) */
@@ -245,7 +245,14 @@ screens[8]=()=>`<div class="stagger"><div class="eyebrow">For your specialist</d
   <div class="hint-pill">&#9745; Select all that apply</div>
   <div class="opts">${CONTEXT.map((c,i)=>`<div class="opt ${state.context.includes(i)?'sel':''}" onclick="toggleCtx(${i})"><span class="cbx">${state.context.includes(i)?'&#10003;':''}</span>${c}</div>`).join('')}</div>
   <div class="spacer"></div><button class="btn" onclick="next()" ${state.context.length?'':'disabled'}>Continue <span class="arrow">&rarr;</span></button></div>`;
-function toggleCtx(i){ if(i===4){ state.context=state.context.includes(4)?[]:[4]; } else { state.context=state.context.filter(x=>x!==4); const at=state.context.indexOf(i); if(at>-1)state.context.splice(at,1); else state.context.push(i);} render(); }
+function updateContinue(){ const btn=screenEl.querySelector('button.btn:not(.ghost)'); if(!btn)return; let ok=true; if(step===8) ok=state.context.length>0; btn.disabled=!ok; }
+function selSingle(el,key,value){ state[key]=value;
+  const box=el.parentElement; Array.from(box.children).forEach(c=>{ c.classList.remove('sel'); const k=c.querySelector('.chk'); if(k)k.innerHTML=''; });
+  el.classList.add('sel'); const k=el.querySelector('.chk'); if(k)k.innerHTML='&#10003;'; updateContinue(); }
+function toggleCtx(i){
+  if(i===4){ state.context=state.context.includes(4)?[]:[4]; } else { state.context=state.context.filter(x=>x!==4); const at=state.context.indexOf(i); if(at>-1)state.context.splice(at,1); else state.context.push(i); }
+  const box=document.querySelector('.opts'); if(box){ Array.from(box.children).forEach((c,idx)=>{ const on=state.context.includes(idx); c.classList.toggle('sel',on); const cb=c.querySelector('.cbx'); if(cb)cb.innerHTML=on?'&#10003;':''; }); }
+  updateContinue(); }
 
 screens[9]=()=>`<div class="stagger"><div class="eyebrow">Almost there</div><h1>Where do you<br>call <span class="it">home</span>?</h1>
   <div class="lede" style="margin-top:6px">Your club helps us match you with the nearest specialist, and keep your visit close.</div>

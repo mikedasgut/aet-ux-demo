@@ -78,6 +78,10 @@
   .ovl-card p{font-size:13.5px;color:#46544b;line-height:1.45;margin-bottom:14px}
   .ovl-s{font-family:var(--disp);font-size:46px;font-weight:600;color:var(--green2);line-height:1}
   .ovl-l{font-size:12px;letter-spacing:.05em;text-transform:uppercase;color:var(--gold);font-weight:800;margin:4px 0 8px}
+  .cd-l{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);font-weight:800;margin-bottom:6px}
+  .cd{font-family:var(--disp);font-weight:600;font-size:74px;line-height:1;color:var(--green2);animation:cdpop .62s cubic-bezier(.2,.9,.3,1)}
+  .cd.go{font-size:34px;letter-spacing:.04em}
+  @keyframes cdpop{0%{transform:scale(.45);opacity:0}45%{transform:scale(1.12);opacity:1}100%{transform:scale(1);opacity:1}}
   .field{margin-top:14px;flex:0 0 auto}
   .field label{display:block;font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:800;margin-bottom:7px}
   .field input{width:100%;padding:15px;border-radius:13px;background:var(--card);border:1.5px solid var(--line);color:var(--ink);font-family:var(--sans);font-size:16px;font-weight:600}
@@ -277,7 +281,8 @@ screens[6]=()=>`<div class="stagger"><div class="eyebrow">Test 2 of 4 &middot; T
 const RT={best:0,attempts:0,live:false,raf:null};
 function reactInit(){ RT.best=state.reaction||0; RT.attempts=0; RT.live=false;
   setOvl('rovl', introHtml('Catch it at its sharpest','A ball will pulse in and out of focus. Tap the instant it looks sharpest, the way you&rsquo;d time a '+SP().verb+'.','reactBegin')); }
-function reactBegin(){ const ball=document.getElementById('rball'); if(!ball)return; RT.live=true; hideOvl('rovl'); const t0=performance.now();
+function reactBegin(){ countdown('rovl', reactGo); }
+function reactGo(){ const ball=document.getElementById('rball'); if(!ball)return; RT.live=true; hideOvl('rovl'); ball.style.filter='blur(4px)'; const t0=performance.now();
   const loop=(t)=>{ if(!RT.live)return; const ph=((t-t0)/2300)%1; const sh=Math.abs(Math.sin(ph*Math.PI));
     ball.style.filter='blur('+((1-sh)*7).toFixed(2)+'px)'; ball.style.transform='scale('+(0.9+sh*0.16).toFixed(3)+')'; ball.dataset.s=sh.toFixed(3); RT.raf=requestAnimationFrame(loop); };
   RT.raf=requestAnimationFrame(loop); }
@@ -293,7 +298,8 @@ screens[7]=()=>`<div class="stagger"><div class="eyebrow">Test 3 of 4 &middot; L
 const FT={best:0,attempts:0,live:false,raf:null};
 function fadeInit(){ FT.best=state.contrast||0; FT.attempts=0; FT.live=false;
   setOvl('fovl', introHtml('Don&rsquo;t lose the ball','The ball slowly fades to nothing. Tap the last instant you can still see it. The fainter you catch it, the sharper your low-light eyes.','fadeBegin')); }
-function fadeBegin(){ const ball=document.getElementById('cball'); if(!ball)return; FT.live=true; hideOvl('fovl'); ball.style.opacity='1'; const t0=performance.now();
+function fadeBegin(){ countdown('fovl', fadeGo); }
+function fadeGo(){ const ball=document.getElementById('cball'); if(!ball)return; FT.live=true; hideOvl('fovl'); ball.style.opacity='1'; const t0=performance.now();
   const loop=(t)=>{ if(!FT.live)return; const op=Math.max(0,1-(t-t0)/5200); ball.style.opacity=op.toFixed(3); ball.dataset.o=op.toFixed(3);
     if(op<=0.02){ FT.live=false; cancelAnimationFrame(FT.raf); const sc=60; FT.best=Math.max(FT.best,sc); state.contrast=FT.best; FT.attempts++; animateChip();
       setOvl('fovl', resultHtml('Contrast',sc,FT.best,FT.attempts,'It vanished. Low light is your gap.','fadeBegin')); return; }
@@ -304,6 +310,13 @@ function fadeTap(){ if(!FT.live)return; FT.live=false; cancelAnimationFrame(FT.r
   setOvl('fovl', resultHtml('Contrast',sc,FT.best,FT.attempts,op<0.25?'Sharp low-light read.':'Solid, room to gain.','fadeBegin')); }
 
 /* overlay helpers */
+function countdown(id,cb){ const o=document.getElementById(id); if(!o)return;
+  const frame=(inner)=>`<div class="ovl-card"><div class="cd-l">Eyes up</div>${inner}</div>`;
+  let n=3; o.style.display='grid'; o.innerHTML=frame('<div class="cd">'+n+'</div>');
+  const tick=()=>{ n--;
+    if(n>=1){ o.innerHTML=frame('<div class="cd">'+n+'</div>'); setTimeout(tick,620); }
+    else { o.innerHTML=frame('<div class="cd go">Go</div>'); setTimeout(()=>{ hideOvl(id); cb&&cb(); },360); } };
+  setTimeout(tick,620); }
 function setOvl(id,html){ const o=document.getElementById(id); if(!o)return; o.innerHTML=html; o.style.display='grid'; }
 function hideOvl(id){ const o=document.getElementById(id); if(o)o.style.display='none'; }
 function introHtml(title,desc,fn){ return `<div class="ovl-card"><div class="ovl-t">${title}</div><p>${desc}</p><button class="btn" onclick="${fn}()">Begin <span class="arrow">&rarr;</span></button></div>`; }

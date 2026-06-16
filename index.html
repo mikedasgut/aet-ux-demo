@@ -142,9 +142,14 @@
   .hero .cap .ttl{font-family:var(--disp);font-weight:600;font-size:clamp(25px,7.2vw,32px);line-height:1.08;color:#fff}
   .hero .cap .ttl .it{font-style:italic;color:var(--gold-l)}
   .hero .cap .ln{font-family:var(--disp);font-style:italic;font-size:16.5px;line-height:1.28;color:#fff;text-shadow:0 1px 12px rgba(0,0,0,.45)}
-  .hero.intro{height:clamp(196px,32vh,256px);margin-top:2px}
+  .hero.intro{height:clamp(240px,40vh,310px);margin-top:2px}
   .hero.band{height:118px;margin-top:14px}
   .hero.report{height:150px;margin-bottom:2px}
+  .benefits{display:flex;flex-direction:column;gap:10px;margin-top:16px;flex:0 0 auto}
+  .benefit{display:flex;align-items:flex-start;gap:12px;padding:13px 15px;border-radius:13px;background:var(--card);border:1px solid var(--line)}
+  .benefit .bicon{flex:0 0 auto;width:36px;height:36px;border-radius:10px;display:grid;place-items:center;font-size:17px;background:var(--green-soft);border:1px solid var(--green-tint)}
+  .benefit .btxt{font-size:13.5px;color:#3a4842;line-height:1.4}
+  .benefit .btxt b{color:var(--green2);font-weight:700}
   .card .thumb{width:54px;height:54px;border-radius:13px;flex:0 0 auto;background:#dfe6df center/cover no-repeat;border:1px solid var(--line);box-shadow:inset 0 0 0 1px rgba(255,255,255,.25)}
   .method{display:inline-flex;align-items:center;gap:7px;align-self:flex-start;margin-top:11px;flex:0 0 auto;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:10.5px;font-weight:600;letter-spacing:.02em;color:#5d6b61;background:var(--card);border:1px solid var(--line);padding:5px 11px;border-radius:8px;text-transform:uppercase}
   .method .md{width:6px;height:6px;border-radius:2px;background:var(--green);flex:0 0 auto}
@@ -195,18 +200,18 @@ const IMG={
 };
 
 const SPORTS={
-  Pickleball:{ic:'&#127952;',ss:'Fastest game on the court',verb:'put-away',readNoun:'the ball off the paddle',nearEx:'the score scrawled on a paddle',
-    bragQ:'Where&rsquo;s your <span class="it">DUPR</span>?',brag:['Under 3.0','3.0 to 3.5','3.5 to 4.0','4.0 and up','Just here for fun'],flatter:'A real competitor.',
-    hero:IMG.pickleHero,thumb:IMG.pickleAlt,unit:'points',arena:'the kitchen line',pro:'A pro at the net',heroLine:'Every ball you read a beat late at the net is a point gone.',readMetric:'Net read',readNote:'Reacting to fast hands at the net.'},
-  Golf:{ic:'&#9971;',ss:'Reading the line and the lie',verb:'putt',readNoun:'the flag from the fairway',nearEx:'the yardage on a rangefinder',
+  Pickleball:{ic:'&#127952;',ss:'Fast hands, quick reads',verb:'put-away',readNoun:'the ball off the paddle',nearEx:'the score scrawled on a paddle',
+    bragQ:'What&rsquo;s your <span class="it">DUPR</span>?',brag:['Under 3.0','3.0 to 3.5','3.5 to 4.0','4.0 and up','Just here for fun'],flatter:'A real competitor.',
+    hero:IMG.pickleHero,thumb:IMG.pickleAlt,unit:'points',arena:'the kitchen line',pro:'A pro at the net',heroLine:'A split-second delay at the net costs more than you think.',readMetric:'Net reaction',readNote:'How quickly you react to fast volleys.'},
+  Golf:{ic:'&#9971;',ss:'Distance and depth',verb:'putt',readNoun:'the flag from the fairway',nearEx:'the yardage on a rangefinder',
     bragQ:'What do you <span class="it">shoot</span>?',brag:['Under 80','In the 80s','In the 90s','Triple digits','Out for the walk'],flatter:'Single digits is no accident.',
-    hero:IMG.golfHero,thumb:IMG.golfHero,unit:'strokes',arena:'the fairway',pro:'A tour pro',heroLine:'Every green you misread is strokes you never get back.',readMetric:'Distance read',readNote:'Judging depth and distance to the pin.'},
-  Tennis:{ic:'&#127934;',ss:'Reading pace and spin',verb:'return',readNoun:'a ball with pace',nearEx:'the tension stamped on a racquet',
+    hero:IMG.golfHero,thumb:IMG.golfHero,unit:'strokes',arena:'the fairway',pro:'A tour pro',heroLine:'Misjudging a green is a stroke you never get back.',readMetric:'Distance judgment',readNote:'How accurately you judge depth and distance.'},
+  Tennis:{ic:'&#127934;',ss:'Speed and tracking',verb:'return',readNoun:'a ball with pace',nearEx:'the tension stamped on a racquet',
     bragQ:'What&rsquo;s your <span class="it">level</span>?',brag:['3.0','3.5','4.0','4.5 and up','I just rally'],flatter:'That is tournament territory.',
-    hero:IMG.tennisHero,thumb:IMG.tennisHero,unit:'points',arena:'the baseline',pro:'A touring pro',heroLine:'Every serve you pick up late is a point you hand over.',readMetric:'Return read',readNote:'Locking onto a serve with pace.'},
-  Other:{ic:'&#127950;',ss:'Another game, or a few',verb:'play',readNoun:'a fast-moving target',nearEx:'the fine print',
-    bragQ:'How <span class="it">competitive</span> are you?',brag:['I play to win','Weekend warrior','Social and casual','Just staying active'],flatter:'Respect.',
-    hero:IMG.otherHero,thumb:IMG.otherHero,unit:'points',arena:'the field',pro:'An elite competitor',heroLine:'Every beat your eyes lag is a play you give away.',readMetric:'On-court read',readNote:'How fast your eyes lock on and track.'}
+    hero:IMG.tennisHero,thumb:IMG.tennisHero,unit:'points',arena:'the baseline',pro:'A touring pro',heroLine:'Picking up a serve late changes the entire point.',readMetric:'Serve tracking',readNote:'How quickly you lock onto a fast serve.'},
+  Other:{ic:'&#127950;',ss:'General vision fitness',verb:'play',readNoun:'a fast-moving target',nearEx:'the fine print',
+    bragQ:'How <span class="it">active</span> are you?',brag:['I play to win','Weekend warrior','Social and casual','Just staying active'],flatter:'Respect.',
+    hero:IMG.otherHero,thumb:IMG.otherHero,unit:'points',arena:'the field',pro:'An elite competitor',heroLine:'Your eyes slow down before your body does.',readMetric:'Visual reaction',readNote:'How quickly your eyes track and respond.'}
 };
 function SP(){ return SPORTS[state.sport]||SPORTS.Other; }
 function sportName(){ return state.sport==='Other'?(state.sportOther||'your game'):(state.sport||'your game'); }
@@ -269,44 +274,48 @@ const screens=[];
 
 screens[0]=()=>`<div class="stagger">
   <div class="hero intro"><img src="${img(IMG.neutral,820,64)}" alt="" onload="this.classList.add('on')"/><div class="scrim"></div>
-    <div class="cap"><div class="eye">For players who refuse to slow down</div><div class="ttl">The ball<br><span class="it">doesn&rsquo;t lie.</span></div></div></div>
-  <div class="lede" style="margin-top:14px">You haven&rsquo;t lost a step. But your eyes might be costing you the ones you can&rsquo;t see. Five short screens, built on the same methods a clinic uses, and you&rsquo;ll know exactly what your game is leaving on the table.</div>
-  <div class="method"><span class="md"></span>Acuity &middot; dynamic &middot; contrast &middot; near &middot; precision</div>
+    <div class="cap"><div class="eye">Free &middot; 3 minutes &middot; personalized results</div><div class="ttl">How sharp are<br>your eyes, <span class="it">really?</span></div></div></div>
+  <div class="lede" style="margin-top:14px">Take five quick vision screens and get a personalized report showing where your eyes are strong, where they&rsquo;ve changed, and what a specialist would focus on.</div>
+  <div class="benefits">
+    <div class="benefit"><div class="bicon">&midast;</div><div class="btxt"><b>Five clinical-grade screens</b><br>Distance, reaction, contrast, near vision, and precision</div></div>
+    <div class="benefit"><div class="bicon">&equiv;</div><div class="btxt"><b>Personalized scouting report</b><br>Benchmarked against your age and sport</div></div>
+    <div class="benefit"><div class="bicon">&check;</div><div class="btxt"><b>Free in-office follow-up</b><br>With a vision specialist near you, if your results call for it</div></div>
+  </div>
   <div class="spacer"></div>
-  <button class="btn" onclick="next()">Find my edge <span class="arrow">&rarr;</span></button>
-  <div class="meta"><span class="pulse"></span> Calibrated to your screen &middot; no commitment &middot; about 3 minutes</div>
+  <button class="btn" onclick="next()">Start my vision check <span class="arrow">&rarr;</span></button>
+  <div class="meta"><span class="pulse"></span> Built on clinical screening methods &middot; no commitment</div>
   <div class="meta" style="margin-top:6px;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:#9a937f">Powered by Dancecard</div></div>`;
 
 screens[1]=()=>{ const o=Object.keys(SPORTS).map(k=>[k,SPORTS[k]]);
-  return `<div class="stagger"><div class="eyebrow">Your arena</div><h1>Which game<br><span class="it">owns</span> you?</h1>
-  <div class="lede" style="margin-top:8px">We tune every test, and every word, to how you read the ball.</div>
+  return `<div class="stagger"><div class="eyebrow">Your sport</div><h1>What&rsquo;s your<br><span class="it">sport?</span></h1>
+  <div class="lede" style="margin-top:8px">We&rsquo;ll tailor each screen to how you play.</div>
   <div class="cards">${o.map(([k,c])=>`<div class="card ${state.sport===k?'sel':''}" data-other="${k==='Other'?1:''}" onclick="selSingle(this,'sport','${k}')"><div class="thumb" style="background-image:url('${img(c.thumb,150,55)}')"></div><div><div class="tt">${k==='Other'?'Another sport':k}</div><div class="ss">${c.ss}</div></div><div class="chk">${state.sport===k?'&#10003;':''}</div></div>`).join('')}</div>
   <div class="otherfield" style="display:${state.sport==='Other'?'block':'none'}"><input placeholder="Your sport" value="${state.sportOther}" oninput="state.sportOther=this.value"/></div>
   <div class="spacer"></div><button class="btn" onclick="next()" ${state.sport?'':'disabled'}>Continue <span class="arrow">&rarr;</span></button></div>`; };
 
 screens[2]=()=>{ const c=SP();
-  return `<div class="stagger"><div class="eyebrow">Let&rsquo;s talk game</div><h1>${c.bragQ}</h1>
+  return `<div class="stagger"><div class="eyebrow">Your level</div><h1>${c.bragQ}</h1>
   <div class="hero band"><img src="${img(c.hero,760,62)}" alt="" onload="this.classList.add('on')"/><div class="scrim"></div>
-    <div class="cap"><div class="ln">Out on ${c.arena}, what do you bring?</div></div></div>
-  <div class="lede" style="margin-top:12px">Be honest. We&rsquo;ll keep it between us.</div>
+    <div class="cap"><div class="ln">No judgment. This helps us benchmark your results.</div></div></div>
+  <div class="lede" style="margin-top:12px">We&rsquo;ll compare your scores to players at a similar level.</div>
   <div class="chips">${c.brag.map(b=>`<div class="chip ${state.skill===b?'sel':''}" onclick="pickSkill(this,'${b}')"><span class="radio"></span>${b}</div>`).join('')}</div>
   <div class="spacer"></div><button class="btn" onclick="next()" ${state.skill?'':'disabled'}>Continue <span class="arrow">&rarr;</span></button></div>`; };
 function pickSkill(el,b){ selSingle(el,'skill',b); const i=SP().brag.indexOf(b); if(i<=1) flash('Nice.', SP().flatter, null); }
 
-screens[3]=()=>`<div class="stagger"><div class="eyebrow">Your prime</div><h1>Which decade are<br>you <span class="it">playing</span> in?</h1>
-  <div class="lede" style="margin-top:8px">Just so we read your eyes against the right field.</div>
+screens[3]=()=>`<div class="stagger"><div class="eyebrow">Your age range</div><h1>Which decade<br>are you <span class="it">in?</span></h1>
+  <div class="lede" style="margin-top:8px">So we compare your results to the right baseline.</div>
   <div class="grid2">${AGE.map(a=>`<div class="tile ${state.age===a[0]?'sel':''}" onclick="selSingle(this,'age','${a[0]}')"><b>${a[0]}</b><span>${a[1]}</span></div>`).join('')}</div>
   <div class="spacer"></div><button class="btn" onclick="next()" ${state.age?'':'disabled'}>Continue <span class="arrow">&rarr;</span></button></div>`;
 
-screens[4]=()=>`<div class="stagger"><div class="eyebrow">The honest answer</div><h1>Where does it<br><span class="it">cost</span> you?</h1>
-  <div class="lede" style="margin-top:8px">The thing quietly bleeding ${SP().unit} out on ${SP().arena}. Pick the one that stings most.</div>
+screens[4]=()=>`<div class="stagger"><div class="eyebrow">Your experience</div><h1>Notice anything<br><span class="it">like this?</span></h1>
+  <div class="lede" style="margin-top:8px">Pick the one closest to what you&rsquo;ve experienced.</div>
   <div class="chips">${SYM().map((p,i)=>`<div class="chip ${state.pain===p[1]?'sel':''}" data-other="${p[2]==='other'?1:''}" onclick="selSingle(this,'pain',SYM()[${i}][1])"><span class="radio"></span><span class="e">${p[0]}</span>${p[1]}</div>`).join('')}</div>
   <div class="otherfield" style="display:${symKind()==='other'?'block':'none'}"><input placeholder="Tell us in a few words" value="${state.painOther}" oninput="state.painOther=this.value"/></div>
   <div class="spacer"></div><button class="btn" onclick="next()" ${state.pain?'':'disabled'}>Continue <span class="arrow">&rarr;</span></button></div>`;
 
 /* Setup & calibration (clinical credibility gate) */
-screens[5]=()=>`<div class="stagger"><div class="eyebrow">Setup &middot; calibration</div><h1>Let&rsquo;s make it<br><span class="it">accurate.</span></h1>
-  <div class="lede" style="margin-top:8px">Five quick screens measure how your eyes perform. First we calibrate to your device, the same way a screening in the chair is set before it starts.</div>
+screens[5]=()=>`<div class="stagger"><div class="eyebrow">Quick setup</div><h1>Let&rsquo;s make it<br><span class="it">accurate.</span></h1>
+  <div class="lede" style="margin-top:8px">We&rsquo;ll calibrate to your screen first so the measurements are accurate. Takes about 15 seconds.</div>
   <div class="method"><span class="md"></span>ISO/IEC 7810 card calibration</div>
   <div class="calwrap"><div class="calcard" id="calcard" style="width:${state.calPx}px"><span class="calstripe"></span><span class="calchip"></span><span class="caltxt">Match a card to this width</span></div></div>
   <input type="range" min="150" max="330" value="${state.calPx}" class="calslider" oninput="calAdjust(this.value)"/>
@@ -322,8 +331,8 @@ screens[5]=()=>`<div class="stagger"><div class="eyebrow">Setup &middot; calibra
 function calAdjust(v){ state.calPx=+v; const c=document.getElementById('calcard'); if(c) c.style.width=v+'px'; }
 function setCal(){ state.cal=(state.calPx/85.6).toFixed(2); next(); }
 
-screens[6]=()=>`<div class="stagger"><div class="eyebrow">Test 1 of 5 &middot; The long read</div><h1>How far can you<br>still <span class="it">read</span> the line?</h1>
-  <div class="lede" style="margin-top:6px">Cover your left eye. At arm&rsquo;s length, tap the smallest row you can still call clean.</div>
+screens[6]=()=>`<div class="stagger"><div class="eyebrow">Test 1 of 5 &middot; Distance vision</div><h1>How far can you<br>still <span class="it">read?</span></h1>
+  <div class="lede" style="margin-top:6px">Cover your left eye. Hold your phone at arm&rsquo;s length. Tap the smallest row where you can read every letter clearly.</div>
   <div class="method"><span class="md"></span>Snellen optotype &middot; logMAR acuity${state.cal?' &middot; calibrated':''}</div>
   <div class="surface">${ACUITY.map((r,i)=>`<div class="acuity-row ${state.acuity===i?'sel':''}" style="font-size:${r[2]}px" onclick="setAcuity(${i})">${r[1]}<div class="rowtag">${r[0]}</div></div>`).join('')}</div>
   <div class="meta">Estimates your distance acuity &middot; tap your line</div></div>`;
@@ -340,15 +349,15 @@ function readInit(){ const s=state.sport;
   return reactInit(); }
 
 /* generic read (Other) */
-function genScreen(){ return `<div class="stagger"><div class="eyebrow">Test 2 of 5 &middot; The read</div><h1>Catch it at its<br><span class="it">sharpest.</span></h1>
-  <div class="lede" style="margin-top:6px">Your eyes vs a moving target.</div>
+function genScreen(){ return `<div class="stagger"><div class="eyebrow">Test 2 of 5 &middot; Visual reaction</div><h1>Catch it at its<br><span class="it">sharpest.</span></h1>
+  <div class="lede" style="margin-top:6px">A ball pulses in and out of focus. Tap the instant it looks sharpest.</div>
   <div class="method"><span class="md"></span>Dynamic visual acuity</div>
   <div class="arena" id="rarena" onclick="reactTap()"><div class="net"></div><div class="gball" id="rball" style="filter:blur(4px)"></div><div class="tovl" id="rovl"></div></div>
   <div class="meta">Up to 3 tries &middot; we keep your best</div></div>`; }
 
 /* golf: range the flag (stop the climbing marker level with the pin) */
-function golfScreen(){ return `<div class="stagger"><div class="eyebrow">Test 2 of 5 &middot; Range the flag</div><h1>Lock the <span class="it">distance.</span></h1>
-  <div class="lede" style="margin-top:6px">A marker climbs toward the pin. Tap to stop it dead level with the flag.</div>
+function golfScreen(){ return `<div class="stagger"><div class="eyebrow">Test 2 of 5 &middot; Distance judgment</div><h1>Lock the <span class="it">distance.</span></h1>
+  <div class="lede" style="margin-top:6px">A marker climbs toward the flag. Tap to stop it level with the pin.</div>
   <div class="method"><span class="md"></span>Dynamic visual acuity &middot; depth judgment</div>
   <div class="arena golf" id="grarena" onclick="grTap()"><div class="g-flag" id="grflag"><span class="g-line"></span><span class="g-pin">&#9971;</span></div><div class="g-marker" id="grmark"><span class="g-mlabel">carry</span></div><div class="g-yard" id="gryard">&mdash;</div><div class="tovl" id="rovl"></div></div>
   <div class="meta">Up to 3 tries &middot; we keep your best</div></div>`; }
@@ -370,8 +379,8 @@ function grTap(){ if(!GR.live)return; GR.live=false; cancelAnimationFrame(GR.raf
   setOvl('rovl', resultHtml('Distance read',sc,GR.best,GR.attempts, dist<0.05?'Flagged it. Pure depth control.':(dist<0.15?'Close read, just off the pin.':'Misjudged the distance, and very trainable.'),'grBegin')); }
 
 /* tennis / pickleball: read the serve (tap as the ball crosses the line) */
-function serveScreen(){ return `<div class="stagger"><div class="eyebrow">Test 2 of 5 &middot; Read the serve</div><h1>Pick it up <span class="it">clean.</span></h1>
-  <div class="lede" style="margin-top:6px">A ball fires at you. Tap the instant it crosses the line.</div>
+function serveScreen(){ return `<div class="stagger"><div class="eyebrow">Test 2 of 5 &middot; Serve tracking</div><h1>Pick it up <span class="it">clean.</span></h1>
+  <div class="lede" style="margin-top:6px">A ball fires toward you. Tap the instant it crosses the line.</div>
   <div class="method"><span class="md"></span>Dynamic visual acuity &middot; reaction timing</div>
   <div class="arena serve" id="svarena" onclick="svTap()"><div class="sv-line"><span>STRIKE</span></div><div class="gball svball" id="svball"></div><div class="tovl" id="rovl"></div></div>
   <div class="meta">Up to 3 tries &middot; we keep your best</div></div>`; }
@@ -405,8 +414,8 @@ function reactTap(){ if(!RT.live)return; RT.live=false; cancelAnimationFrame(RT.
   setOvl('rovl', resultHtml('On-court read',sc,RT.best,RT.attempts,sh>0.82?'Pro timing.':'A beat late, and fixable.','reactBegin')); }
 
 /* T3 contrast fade (modal + 3 tries, slower) */
-screens[8]=()=>`<div class="stagger"><div class="eyebrow">Test 3 of 5 &middot; Low light</div><h1>Don&rsquo;t <span class="it">lose</span><br>the ball.</h1>
-  <div class="lede" style="margin-top:6px">Find ${SP().readNoun} as the light dies.</div>
+screens[8]=()=>`<div class="stagger"><div class="eyebrow">Test 3 of 5 &middot; Low-light vision</div><h1>Don&rsquo;t <span class="it">lose</span><br>sight.</h1>
+  <div class="lede" style="margin-top:6px">A ball fades until it disappears. Tap the last instant you can still see it.</div>
   <div class="method"><span class="md"></span>Pelli-Robson contrast sensitivity</div>
   <div class="arena" id="farena" onclick="fadeTap()"><div class="net"></div><div class="gball" id="cball"></div><div class="tovl" id="fovl"></div></div>
   <div class="meta">Up to 3 tries &middot; we keep your best</div></div>`;
@@ -439,16 +448,16 @@ function resultHtml(label,sc,best,attempts,note,fn){ const left=3-attempts; retu
 
 /* T4 near (tap) */
 screens[9]=()=>{ const NEAR=nearRows();
-  return `<div class="stagger"><div class="eyebrow">Test 4 of 5 &middot; Up close</div><h1>The fine print keeps<br><span class="it">moving away.</span></h1>
-  <div class="lede" style="margin-top:6px">Hold the phone where you&rsquo;d read ${SP().nearEx}. Tap the smallest line you can read without readers.</div>
+  return `<div class="stagger"><div class="eyebrow">Test 4 of 5 &middot; Up-close vision</div><h1>The fine print<br><span class="it">test.</span></h1>
+  <div class="lede" style="margin-top:6px">Hold the phone at a comfortable reading distance. Tap the smallest line you can read clearly without readers.</div>
   <div class="method"><span class="md"></span>Near point of accommodation &middot; presbyopia</div>
   <div class="surface">${NEAR.map((r,i)=>`<div class="near-row ${state.near===i?'sel':''}" style="font-size:${r[2]}px" onclick="setNear(${i})">${r[1]}<div class="rowtag" style="letter-spacing:.1em">${r[0]}</div></div>`).join('')}</div>
   <div class="meta">Reveals presbyopia, the reading change after 45</div></div>`; };
 function setNear(i){ state.near=i; animateChip(); flash('Near: '+nearRows()[i][0], i>=3?'Excellent up-close vision.':'A common reading change, very fixable.', next); }
 
 /* T5 precision: find the break (hyperacuity / vernier) */
-screens[10]=()=>`<div class="stagger"><div class="eyebrow">Test 5 of 5 &middot; The fine line</div><h1>Catch the<br><span class="it">break.</span></h1>
-  <div class="lede" style="margin-top:6px">One line is split, its top nudged off true. Tap the one that isn&rsquo;t straight.</div>
+screens[10]=()=>`<div class="stagger"><div class="eyebrow">Test 5 of 5 &middot; Precision test</div><h1>Find the<br><span class="it">offset.</span></h1>
+  <div class="lede" style="margin-top:6px">One of these lines has a small offset at the midpoint. Tap the one that looks misaligned.</div>
   <div class="method"><span class="md"></span>Vernier hyperacuity</div>
   <div class="arena fence" id="hyarena"><div class="fence-rows" id="hyrows"></div><div class="hy-lvl" id="hylvl"></div><div class="tovl" id="hyovl"></div></div>
   <button class="btn ghost" id="hygiveup" style="margin-top:11px" onclick="hyPass()">They look identical to me</button>
@@ -475,14 +484,14 @@ function hyTap(i){ if(!HY.live)return;
 function hyPass(){ if(!HY.live)return; HY.live=false; HY.best=Math.max(HY.best,Math.max(50,40+HY.level*10)); state.hyper=HY.best; animateChip();
   setOvl('hyovl', hyResult(HY.level>=3?'Honest call, and a sharp one. You held to a fine gap.':'No shame, that gap is genuinely tiny.')); }
 
-screens[11]=()=>`<div class="stagger"><div class="eyebrow">For your specialist</div><h1>Anything we<br>should <span class="it">know</span>?</h1>
-  <div class="lede" style="margin-top:6px">This goes straight to your doctor, so your visit starts ahead.</div>
+screens[11]=()=>`<div class="stagger"><div class="eyebrow">Your eye history</div><h1>Anything we<br>should <span class="it">know?</span></h1>
+  <div class="lede" style="margin-top:6px">Helps your doctor prepare if you come in for a full exam.</div>
   <div class="hint-pill">&#9745; Select all that apply</div>
   <div class="opts">${CONTEXT.map((c,i)=>`<div class="opt ${state.context.includes(i)?'sel':''}" onclick="toggleCtx(${i})"><span class="cbx">${state.context.includes(i)?'&#10003;':''}</span>${c}</div>`).join('')}</div>
   <div class="spacer"></div><button class="btn" onclick="next()" ${state.context.length?'':'disabled'}>Continue <span class="arrow">&rarr;</span></button></div>`;
 
-screens[12]=()=>`<div class="stagger"><div class="eyebrow">Almost there</div><h1>Where do you<br>most often <span class="it">play</span>?</h1>
-  <div class="lede" style="margin-top:6px">Helps us match you with the nearest specialist and keep any visit close to home.</div>
+screens[12]=()=>`<div class="stagger"><div class="eyebrow">Your location</div><h1>Where do you<br>most often <span class="it">play?</span></h1>
+  <div class="lede" style="margin-top:6px">So we can find the closest office to you.</div>
   <div class="field"><label>Home club, zip code, or side of town</label>
     <input list="clubs" id="club" placeholder="e.g. Crooked Stick, 46033, or North Side" value="${state.club}" oninput="state.club=this.value;tog('c10',this.value.length>1)"/>
     <datalist id="clubs"><option>Crooked Stick Golf Club</option><option>Conway Farms Golf Club</option><option>Butler National</option><option>Life Time North Shore</option><option>The Picklr</option><option>A.C. Nielsen Tennis Center</option><option>Carmel Racquet Club</option><option>Midtown Athletic Club</option><option>Cherry Creek Golf Club</option></datalist></div>
@@ -503,8 +512,8 @@ screens[14]=()=>{ const s=totalScore(), avg=ageAvg(), gap=Math.max(0,95-s), mins
   const office=state.club?('the office ~'+mins+' min from '+state.club):('your nearest office, ~'+mins+' min away');
   const metrics=[['Distance acuity',acuityScore(),'Your read on a long, fast ball.'],[SP().readMetric,state.reaction,SP().readNote],['Contrast',state.contrast,'Finding the ball in glare and dusk.'],['Near vision',nearScore(),'The card, the menu, the rangefinder.'],['Precision',state.hyper,'The finest misalignment your eyes catch.']];
   const pathCard = cand
-    ? `<div class="path" style="background:linear-gradient(150deg,var(--gold-soft),#fdf9f1);border:1px solid #e7d6b4;opacity:0;animation:rise .5s .55s forwards"><div class="tag" style="background:var(--gold);color:#3a2c12">&#9670; You&rsquo;re leaving ${gap} ${SP().unit} on the table</div><div class="t">That gap is real, and most of it is correctable.</div><p>You&rsquo;re reading below your peak on ${F.line}, the shots you misjudge, the reactions a beat late, the print you hold farther away. The move is a full in-office Athlete&rsquo;s Eye Test with a doctor who works with active ${sportName()} players and is committed to getting you back to your sharpest. No sales pitch, just the truth and the door.</p></div>`
-    : `<div class="path" style="background:linear-gradient(150deg,var(--green-soft),#fbf9f2);border:1px solid var(--green-tint);opacity:0;animation:rise .5s .55s forwards"><div class="tag" style="background:var(--green);color:#f3efe4">&#9733; Reading above your bracket</div><div class="t">Your eyes are still ahead of the field.</div><p>You scored above the typical ${state.age||'player'} on the court, so a full workup isn&rsquo;t urgent. That is the honest call most funnels never give you. Here is what is worth your time.</p></div>`;
+    ? `<div class="path" style="background:linear-gradient(150deg,var(--gold-soft),#fdf9f1);border:1px solid #e7d6b4;opacity:0;animation:rise .5s .55s forwards"><div class="tag" style="background:var(--gold);color:#3a2c12">&#9670; Room to improve: ${gap} points below your peak</div><div class="t">Most of that gap is correctable with the right evaluation.</div><p>Your screens show room for improvement on ${F.line}. A full in-office Athlete&rsquo;s Eye Test with a specialist who works with active adults can pinpoint exactly what&rsquo;s changed and what can be corrected. No pressure, just a clear picture.</p></div>`
+    : `<div class="path" style="background:linear-gradient(150deg,var(--green-soft),#fbf9f2);border:1px solid var(--green-tint);opacity:0;animation:rise .5s .55s forwards"><div class="tag" style="background:var(--green);color:#f3efe4">&#9733; Above your age group average</div><div class="t">Your eyes are performing well.</div><p>You scored above the typical ${state.age||'player'} on these screens. A full workup isn&rsquo;t urgent, and that is the honest answer most tools never give you. Here is what is worth your time.</p></div>`;
   const docFocus = cand ? F.clinical : 'Routine / wellness visit';
   const actions = cand
     ? `<button class="btn" onclick="alert('Demo: books the complimentary full Athlete Eye Test and routes this income-qualified, candidacy-screened, proximity-matched lead with the full pre-screen. Doctor focus: ${F.clinical}. No procedure is promised, the doctor decides in clinic.')">Claim my complimentary Athlete&rsquo;s Eye Test <span class="arrow">&rarr;</span></button>

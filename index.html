@@ -92,12 +92,22 @@
   .fline .seg.bot{height:80px;margin-top:8px}
   .fline:active{opacity:.55}
   .hy-lvl{position:absolute;top:9px;right:11px;font-size:10.5px;font-weight:800;letter-spacing:.04em;color:var(--green2);background:rgba(255,255,255,.72);padding:3px 9px;border-radius:9px}
-  .tovl{position:absolute;inset:0;display:grid;place-items:center;background:rgba(238,243,238,.93);backdrop-filter:blur(2px);padding:18px;text-align:center}
-  .ovl-card{max-width:300px}
-  .ovl-t{font-family:var(--disp);font-size:20px;font-weight:600;color:var(--green2);margin-bottom:7px}
-  .ovl-card p{font-size:13.5px;color:#46544b;line-height:1.45;margin-bottom:14px}
-  .ovl-s{font-family:var(--disp);font-size:46px;font-weight:600;color:var(--green2);line-height:1}
-  .ovl-l{font-size:12px;letter-spacing:.05em;text-transform:uppercase;color:var(--gold);font-weight:800;margin:4px 0 8px}
+  .tovl{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;overflow-y:auto;background:rgba(238,243,238,.93);backdrop-filter:blur(2px);padding:14px;text-align:center}
+  .ovl-card{max-width:300px;width:100%}
+  .ovl-t{font-family:var(--disp);font-size:18px;font-weight:600;color:var(--green2);margin-bottom:6px}
+  .ovl-card p{font-size:12.5px;color:#46544b;line-height:1.4;margin-bottom:10px}
+  .ovl-s{font-family:var(--disp);font-size:40px;font-weight:600;color:var(--green2);line-height:1}
+  .ovl-l{font-size:11px;letter-spacing:.05em;text-transform:uppercase;color:var(--gold);font-weight:800;margin:3px 0 6px}
+  .ovl-card .btn{font-size:14.5px;padding:13px 16px}
+  .eye-gate{position:fixed;inset:0;z-index:20;display:grid;place-items:center;background:rgba(22,42,32,.92);backdrop-filter:blur(6px);padding:24px;opacity:0;transition:opacity .25s ease}
+  .eye-gate.on{opacity:1}
+  .eye-gate .eg-card{text-align:center;max-width:320px}
+  .eye-gate .eg-icon{font-size:64px;margin-bottom:12px;filter:drop-shadow(0 4px 12px rgba(0,0,0,.3))}
+  .eye-gate .eg-which{font-family:var(--disp);font-size:26px;font-weight:600;color:#fff;line-height:1.2;margin-bottom:6px}
+  .eye-gate .eg-inst{font-size:15px;color:#c5d4c9;line-height:1.45;margin-bottom:20px}
+  .eye-gate .eg-cover{display:inline-block;padding:8px 18px;border-radius:999px;font-size:13px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;margin-bottom:18px}
+  .eye-gate .eg-cover.right{background:#e8f0e8;color:var(--green)}
+  .eye-gate .eg-cover.left{background:var(--gold-soft);color:#6b5a2e}
   .cd-l{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);font-weight:800;margin-bottom:6px}
   .cd{font-family:var(--disp);font-weight:600;font-size:74px;line-height:1;color:var(--green2);animation:cdpop .62s cubic-bezier(.2,.9,.3,1)}
   .cd.go{font-size:34px;letter-spacing:.04em}
@@ -155,9 +165,6 @@
   .method .md{width:6px;height:6px;border-radius:2px;background:var(--green);flex:0 0 auto}
   .calwrap{margin-top:18px;display:flex;justify-content:center;flex:0 0 auto}
   .calcard{position:relative;height:149px;width:236px;border-radius:13px;background:linear-gradient(135deg,#1f4a39,#2b6048);box-shadow:0 14px 28px -14px rgba(20,50,35,.6);overflow:hidden;transition:width .04s linear,height .04s linear}
-  .eye-badge{display:inline-flex;align-items:center;gap:7px;padding:6px 13px;border-radius:999px;font-size:12px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;margin-bottom:10px;flex:0 0 auto}
-  .eye-badge.right{background:#e8f0e8;color:var(--green);border:1.5px solid var(--green-tint)}
-  .eye-badge.left{background:var(--gold-soft);color:#6b5a2e;border:1.5px solid #e0cfa0}
   .calcard .calstripe{position:absolute;left:0;right:0;top:26px;height:30px;background:rgba(0,0,0,.28)}
   .calcard .calchip{position:absolute;left:18px;top:70px;width:38px;height:28px;border-radius:6px;background:linear-gradient(135deg,#e7c886,#b0894b)}
   .calcard .caltxt{position:absolute;left:18px;right:14px;bottom:14px;color:rgba(255,255,255,.92);font-size:11.5px;font-weight:700;letter-spacing:.02em}
@@ -185,6 +192,7 @@
   <div class="stage"><div class="screen" id="screen"></div></div>
   <div class="feedback" id="feedback"><div class="fb"><div class="big" id="fbbig"></div><div class="sm" id="fbsm"></div></div></div>
 </div>
+<div class="eye-gate" id="eyegate"><div class="eg-card" id="egcard"></div></div>
 
 <script>
 const state={ sport:null, sportOther:'', skill:null, age:null, pain:null, painOther:'', acuityR:null, acuityL:null, acuity:null, reaction:0, contrast:0, nearR:null, nearL:null, near:null, hyper:0, calPx:236, cal:null, context:[], club:'', name:'', email:'' };
@@ -348,13 +356,21 @@ function calAdjust(v){ state.calPx=+v; const c=document.getElementById('calcard'
 function setCal(){ state.cal=(state.calPx/85.6).toFixed(2); next(); }
 
 screens[6]=()=>{ const isRight=eyePhase==='R'; const curVal=isRight?state.acuityR:state.acuityL;
-  return `<div class="stagger"><div class="eyebrow">Test 1 of 5 &middot; Distance vision</div><h1>How far can you<br>still <span class="it">read?</span></h1>
-  <div class="eye-badge ${isRight?'right':'left'}">${isRight?'&#128065; Right eye first &middot; cover your LEFT eye':'&#128065; Now your left eye &middot; cover your RIGHT eye'}</div>
+  return `<div class="stagger"><div class="eyebrow">Test 1 of 5 &middot; Distance vision &middot; ${isRight?'right eye':'left eye'}</div><h1>How far can you<br>still <span class="it">read?</span></h1>
   <div class="lede" style="margin-top:6px">Hold your phone at arm&rsquo;s length. Tap the smallest row where you can read every letter clearly.</div>
   <div class="method"><span class="md"></span>Snellen optotype &middot; logMAR acuity${state.cal?' &middot; calibrated':''}</div>
   <div class="surface">${ACUITY.map((r,i)=>`<div class="acuity-row ${curVal===i?'sel':''}" style="font-size:${r[2]}px" onclick="setAcuity(${i})">${r[1]}<div class="rowtag">${r[0]}</div></div>`).join('')}</div>
   <div class="meta">Estimates your distance acuity &middot; ${isRight?'right eye':'left eye'}</div></div>`; };
-function setAcuity(i){ if(eyePhase==='R'){ state.acuityR=i; flash('Right eye: '+ACUITY[i][0], 'Now switch eyes.', ()=>{ eyePhase='L'; render(); }); }
+function showEyeGate(eye, cb){
+  const g=document.getElementById('eyegate'), c=document.getElementById('egcard');
+  const isR=eye==='R';
+  c.innerHTML=`<div class="eg-icon">&#128065;</div><div class="eg-which">${isR?'Right eye first':'Now your left eye'}</div><div class="eg-cover ${isR?'right':'left'}">${isR?'Cover your LEFT eye':'Cover your RIGHT eye'}</div><div class="eg-inst">${isR?'Use your hand or close your left eye. Keep your phone at the same distance.':'Switch hands and cover your right eye. Same distance.'}</div><button class="btn" onclick="dismissEyeGate()" style="max-width:260px;margin:0 auto">I&rsquo;m ready <span class="arrow">&rarr;</span></button>`;
+  g.style.display='grid'; g._cb=cb;
+  requestAnimationFrame(()=>requestAnimationFrame(()=>g.classList.add('on'))); }
+function dismissEyeGate(){ const g=document.getElementById('eyegate'); g.classList.remove('on');
+  setTimeout(()=>{ g.style.display='none'; g._cb&&g._cb(); },260); }
+function setAcuity(i){ if(eyePhase==='R'){ state.acuityR=i; eyePhase='L';
+    showEyeGate('L', ()=>render()); }
   else { state.acuityL=i; state.acuity=Math.min(state.acuityR,state.acuityL); eyePhase='R'; animateChip();
     const disp=eyeDisparity()>=2?'Notable difference between eyes.':''; flash('Left eye: '+ACUITY[i][0], disp||( i>=6?'Sharp. 20/20 or better.':'Room to sharpen.'), next); } }
 
@@ -468,13 +484,13 @@ function resultHtml(label,sc,best,attempts,note,fn){ const left=3-attempts; retu
 
 /* T4 near (tap, per-eye) */
 screens[9]=()=>{ const NEAR=nearRows(); const isRight=eyePhase==='R'; const curVal=isRight?state.nearR:state.nearL;
-  return `<div class="stagger"><div class="eyebrow">Test 4 of 5 &middot; Up-close vision</div><h1>The fine print<br><span class="it">test.</span></h1>
-  <div class="eye-badge ${isRight?'right':'left'}">${isRight?'&#128065; Right eye first &middot; cover your LEFT eye':'&#128065; Now your left eye &middot; cover your RIGHT eye'}</div>
+  return `<div class="stagger"><div class="eyebrow">Test 4 of 5 &middot; Up-close vision &middot; ${isRight?'right eye':'left eye'}</div><h1>The fine print<br><span class="it">test.</span></h1>
   <div class="lede" style="margin-top:6px">Hold the phone at a comfortable reading distance. Tap the smallest line you can read clearly without readers.</div>
   <div class="method"><span class="md"></span>Near point of accommodation &middot; presbyopia</div>
   <div class="surface">${NEAR.map((r,i)=>`<div class="near-row ${curVal===i?'sel':''}" style="font-size:${r[2]}px" onclick="setNear(${i})">${r[1]}<div class="rowtag" style="letter-spacing:.1em">${r[0]}</div></div>`).join('')}</div>
   <div class="meta">${isRight?'Right eye':'Left eye'} &middot; reveals presbyopia, the reading change after 45</div></div>`; };
-function setNear(i){ if(eyePhase==='R'){ state.nearR=i; flash('Right eye: '+nearRows()[i][0], 'Now switch eyes.', ()=>{ eyePhase='L'; render(); }); }
+function setNear(i){ if(eyePhase==='R'){ state.nearR=i; eyePhase='L';
+    showEyeGate('L', ()=>render()); }
   else { state.nearL=i; state.near=Math.max(state.nearR,state.nearL); eyePhase='R'; animateChip();
     flash('Left eye: '+nearRows()[i][0], i>=3?'Excellent up-close vision.':'A common reading change, very fixable.', next); } }
 
@@ -590,8 +606,10 @@ function render(){
     screenEl.innerHTML = screens[step]();
     screenEl.scrollTop = 0;
     screenEl.classList.remove('out');
+    if(step===6 && eyePhase==='R' && state.acuityR==null) setTimeout(()=>showEyeGate('R'),350);
     if(step===7) setTimeout(readInit,320);
     if(step===8) setTimeout(fadeInit,320);
+    if(step===9 && eyePhase==='R' && state.nearR==null) setTimeout(()=>showEyeGate('R'),350);
     if(step===10) setTimeout(hyperInit,320);
     if(step===14) setTimeout(animateReport,80);
   }, rendering?170:0);

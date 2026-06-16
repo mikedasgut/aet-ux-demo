@@ -92,15 +92,15 @@
   .fline .seg.bot{height:80px;margin-top:8px}
   .fline:active{opacity:.55}
   .hy-lvl{position:absolute;top:9px;right:11px;font-size:10.5px;font-weight:800;letter-spacing:.04em;color:var(--green2);background:rgba(255,255,255,.72);padding:3px 9px;border-radius:9px}
-  .tovl{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;overflow-y:auto;background:rgba(238,243,238,.93);backdrop-filter:blur(2px);padding:14px;text-align:center}
+  .tovl{position:absolute;inset:0;display:grid;place-items:center;overflow-y:auto;background:rgba(238,243,238,.93);backdrop-filter:blur(2px);padding:14px;text-align:center}
   .ovl-card{max-width:300px;width:100%}
   .ovl-t{font-family:var(--disp);font-size:18px;font-weight:600;color:var(--green2);margin-bottom:6px}
   .ovl-card p{font-size:12.5px;color:#46544b;line-height:1.4;margin-bottom:10px}
   .ovl-s{font-family:var(--disp);font-size:40px;font-weight:600;color:var(--green2);line-height:1}
   .ovl-l{font-size:11px;letter-spacing:.05em;text-transform:uppercase;color:var(--gold);font-weight:800;margin:3px 0 6px}
   .ovl-card .btn{font-size:14.5px;padding:13px 16px}
-  .eye-gate{position:fixed;inset:0;z-index:20;display:grid;place-items:center;background:rgba(22,42,32,.92);backdrop-filter:blur(6px);padding:24px;opacity:0;transition:opacity .25s ease}
-  .eye-gate.on{opacity:1}
+  .eye-gate{position:fixed;inset:0;z-index:20;display:none;place-items:center;background:rgba(22,42,32,.92);backdrop-filter:blur(6px);padding:24px;opacity:0;pointer-events:none;transition:opacity .25s ease}
+  .eye-gate.on{opacity:1;pointer-events:auto}
   .eye-gate .eg-card{text-align:center;max-width:320px}
   .eye-gate .eg-icon{font-size:64px;margin-bottom:12px;filter:drop-shadow(0 4px 12px rgba(0,0,0,.3))}
   .eye-gate .eg-which{font-family:var(--disp);font-size:26px;font-weight:600;color:#fff;line-height:1.2;margin-bottom:6px}

@@ -154,7 +154,10 @@
   .method{display:inline-flex;align-items:center;gap:7px;align-self:flex-start;margin-top:11px;flex:0 0 auto;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:10.5px;font-weight:600;letter-spacing:.02em;color:#5d6b61;background:var(--card);border:1px solid var(--line);padding:5px 11px;border-radius:8px;text-transform:uppercase}
   .method .md{width:6px;height:6px;border-radius:2px;background:var(--green);flex:0 0 auto}
   .calwrap{margin-top:18px;display:flex;justify-content:center;flex:0 0 auto}
-  .calcard{position:relative;height:148px;width:236px;border-radius:13px;background:linear-gradient(135deg,#1f4a39,#2b6048);box-shadow:0 14px 28px -14px rgba(20,50,35,.6);overflow:hidden;transition:width .04s linear}
+  .calcard{position:relative;height:149px;width:236px;border-radius:13px;background:linear-gradient(135deg,#1f4a39,#2b6048);box-shadow:0 14px 28px -14px rgba(20,50,35,.6);overflow:hidden;transition:width .04s linear,height .04s linear}
+  .eye-badge{display:inline-flex;align-items:center;gap:7px;padding:6px 13px;border-radius:999px;font-size:12px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;margin-bottom:10px;flex:0 0 auto}
+  .eye-badge.right{background:#e8f0e8;color:var(--green);border:1.5px solid var(--green-tint)}
+  .eye-badge.left{background:var(--gold-soft);color:#6b5a2e;border:1.5px solid #e0cfa0}
   .calcard .calstripe{position:absolute;left:0;right:0;top:26px;height:30px;background:rgba(0,0,0,.28)}
   .calcard .calchip{position:absolute;left:18px;top:70px;width:38px;height:28px;border-radius:6px;background:linear-gradient(135deg,#e7c886,#b0894b)}
   .calcard .caltxt{position:absolute;left:18px;right:14px;bottom:14px;color:rgba(255,255,255,.92);font-size:11.5px;font-weight:700;letter-spacing:.02em}
@@ -184,7 +187,8 @@
 </div>
 
 <script>
-const state={ sport:null, sportOther:'', skill:null, age:null, pain:null, painOther:'', acuity:null, reaction:0, contrast:0, near:null, hyper:0, calPx:236, cal:null, context:[], club:'', name:'', email:'' };
+const state={ sport:null, sportOther:'', skill:null, age:null, pain:null, painOther:'', acuityR:null, acuityL:null, acuity:null, reaction:0, contrast:0, nearR:null, nearL:null, near:null, hyper:0, calPx:236, cal:null, context:[], club:'', name:'', email:'' };
+let eyePhase='R'; // R = right eye first, L = left eye second
 let step=0; const TOTAL=15;
 const screenEl=document.getElementById('screen'), bar=document.getElementById('bar'),
       chip=document.getElementById('chip'), chipval=document.getElementById('chipval'), back=document.getElementById('back');
@@ -218,7 +222,7 @@ function sportName(){ return state.sport==='Other'?(state.sportOther||'your game
 
 const ACUITY=[['20/100','E',58],['20/70','F P',43],['20/50','T O Z',33],['20/40','L P E D',26],['20/30','P E C F D',20],['20/25','E D F C Z P',15],['20/20','F E L O P Z D',11],['20/15','D E F P O T E C',8]];
 function nearRows(){ return [['Easy',SP().nearEx,26],['Comfortable','a note from the pro shop',20],['Average','the fine print on a card',15],['Sharp','small settings and labels',12],['Excellent','the disclaimer on a pill bottle',10]]; }
-const AGE=[['Under 40','Still in my prime',92],['40s','Peak experience',88],['50s','Sharper every season',82],['60s','Seasoned competitor',74],['70+','Ageless',66]];
+const AGE=[['Under 40','Still in my prime',88],['40s','Peak experience',82],['50s','Sharper every season',74],['60s','Seasoned competitor',66],['70+','Ageless',58]];
 const SYM_BY_SPORT={
   Pickleball:[['&#127934;','Fast hands at the net blur on me','dynamic'],['&#128167;','Contacts dry out on the court','refractive'],
     ['&#128083;','I react a beat late at the kitchen','dynamic'],['&#128214;','Reading the score or my phone up close','near'],
@@ -236,13 +240,18 @@ const SYM_BY_SPORT={
 function SYM(){ return SYM_BY_SPORT[state.sport]||SYM_BY_SPORT.Other; }
 const CONTEXT=['I wear glasses, contacts, or readers','I&rsquo;ve had eye surgery before','Diabetes or glaucoma in my history','Dry or irritated eyes','None of these'];
 
-function acuityScore(){ return state.acuity==null?0:[48,57,66,75,83,90,96,99][state.acuity]; }
-function nearScore(){ return state.near==null?0:[58,68,78,88,96][state.near]; }
+const ACUITY_SCORES=[38,48,58,68,78,86,94,99];
+const NEAR_SCORES=[40,55,70,84,96];
+function acuityScoreFor(idx){ return idx==null?0:ACUITY_SCORES[idx]; }
+function nearScoreFor(idx){ return idx==null?0:NEAR_SCORES[idx]; }
+function acuityScore(){ return Math.min(acuityScoreFor(state.acuityR),acuityScoreFor(state.acuityL))||acuityScoreFor(state.acuityR)||acuityScoreFor(state.acuityL)||0; }
+function nearScore(){ return Math.min(nearScoreFor(state.nearR),nearScoreFor(state.nearL))||nearScoreFor(state.nearR)||nearScoreFor(state.nearL)||0; }
+function eyeDisparity(){ if(state.acuityR!=null&&state.acuityL!=null) return Math.abs(state.acuityR-state.acuityL); return 0; }
 function totalScore(){ const v=[acuityScore(),state.reaction,state.contrast,nearScore(),state.hyper].filter(x=>x>0); return v.length?Math.round(v.reduce((a,b)=>a+b,0)/v.length):0; }
-function ageAvg(){ const a=AGE.find(x=>x[0]===state.age); return a?a[2]:80; }
+function ageAvg(){ const a=AGE.find(x=>x[0]===state.age); return a?a[2]:76; }
 function symKind(){ return (SYM().find(x=>x[1]===state.pain)||[])[2]; }
 
-function animateChip(){ chip.style.opacity=(state.acuity!=null||state.reaction||state.contrast||state.near!=null||state.hyper)?'1':'0'; const t=totalScore(); let c=parseInt(chipval.textContent)||0;
+function animateChip(){ chip.style.opacity=(state.acuityR!=null||state.reaction||state.contrast||state.nearR!=null||state.hyper)?'1':'0'; const t=totalScore(); let c=parseInt(chipval.textContent)||0;
   const iv=setInterval(()=>{c+=Math.max(1,Math.round((t-c)/6));if(c>=t){c=t;clearInterval(iv);}chipval.textContent=c;},28); }
 function setBar(){ bar.style.width=Math.max(4,(step/(TOTAL-1))*100)+'%'; }
 function flash(big,sm,cb){ const f=document.getElementById('feedback');document.getElementById('fbbig').textContent=big;document.getElementById('fbsm').textContent=sm;
@@ -264,9 +273,16 @@ const FOCUS={ refractive:{line:'distance sharpness and astigmatism',clinical:'Re
 function focusKind(){ const a=state.age,k=symKind(); const nearWeak=(state.near!=null&&state.near<=2), contrastWeak=(state.contrast>0&&state.contrast<76);
   if((a==='60s'||a==='70+')&&(contrastWeak||k==='glare')) return 'contrast';
   if((a==='50s'||a==='60s'||a==='70+')&&(nearWeak||k==='near')) return 'near'; return 'refractive'; }
-function isCandidate(){ if(state.context.includes(0)) return true; if(totalScore()<Math.min(ageAvg(),78)) return true;
-  if(state.near!=null&&state.near<=1) return true; if(state.contrast>0&&state.contrast<70) return true; if(state.acuity!=null&&state.acuity<=1) return true;
-  if(state.hyper>0&&state.hyper<70) return true; return false; }
+function isCandidate(){ if(state.context.includes(0)) return true; if(totalScore()<Math.min(ageAvg(),82)) return true;
+  if(eyeDisparity()>=2) return true;
+  if(state.nearR!=null&&state.nearR<=2) return true; if(state.nearL!=null&&state.nearL<=2) return true;
+  if(state.contrast>0&&state.contrast<70) return true;
+  if(state.acuityR!=null&&state.acuityR<=2) return true; if(state.acuityL!=null&&state.acuityL<=2) return true;
+  if(state.hyper>0&&state.hyper<70) return true;
+  const age50=state.age==='50s'||state.age==='60s'||state.age==='70+';
+  if(age50&&(state.reaction>0&&state.reaction<70)) return true;
+  if(age50&&(state.contrast>0&&state.contrast<75)) return true;
+  return false; }
 function correction(){ return state.context.includes(0)?'glasses / contacts / readers':'none'; }
 function ctxFlags(){ const f=[]; if(state.context.includes(1))f.push('prior eye surgery'); if(state.context.includes(2))f.push('diabetes/glaucoma hx'); if(state.context.includes(3))f.push('dry eye'); return f.length?f.join(', '):'none flagged'; }
 
@@ -328,15 +344,19 @@ screens[5]=()=>`<div class="stagger"><div class="eyebrow">Quick setup</div><h1>L
   <div class="spacer"></div>
   <button class="btn" onclick="setCal()">I&rsquo;m calibrated <span class="arrow">&rarr;</span></button>
   <div class="meta">Standard card long edge: 85.6 mm</div></div>`;
-function calAdjust(v){ state.calPx=+v; const c=document.getElementById('calcard'); if(c) c.style.width=v+'px'; }
+function calAdjust(v){ state.calPx=+v; const c=document.getElementById('calcard'); if(c){ c.style.width=v+'px'; c.style.height=Math.round(v/1.586)+'px'; } }
 function setCal(){ state.cal=(state.calPx/85.6).toFixed(2); next(); }
 
-screens[6]=()=>`<div class="stagger"><div class="eyebrow">Test 1 of 5 &middot; Distance vision</div><h1>How far can you<br>still <span class="it">read?</span></h1>
-  <div class="lede" style="margin-top:6px">Cover your left eye. Hold your phone at arm&rsquo;s length. Tap the smallest row where you can read every letter clearly.</div>
+screens[6]=()=>{ const isRight=eyePhase==='R'; const curVal=isRight?state.acuityR:state.acuityL;
+  return `<div class="stagger"><div class="eyebrow">Test 1 of 5 &middot; Distance vision</div><h1>How far can you<br>still <span class="it">read?</span></h1>
+  <div class="eye-badge ${isRight?'right':'left'}">${isRight?'&#128065; Right eye first &middot; cover your LEFT eye':'&#128065; Now your left eye &middot; cover your RIGHT eye'}</div>
+  <div class="lede" style="margin-top:6px">Hold your phone at arm&rsquo;s length. Tap the smallest row where you can read every letter clearly.</div>
   <div class="method"><span class="md"></span>Snellen optotype &middot; logMAR acuity${state.cal?' &middot; calibrated':''}</div>
-  <div class="surface">${ACUITY.map((r,i)=>`<div class="acuity-row ${state.acuity===i?'sel':''}" style="font-size:${r[2]}px" onclick="setAcuity(${i})">${r[1]}<div class="rowtag">${r[0]}</div></div>`).join('')}</div>
-  <div class="meta">Estimates your distance acuity &middot; tap your line</div></div>`;
-function setAcuity(i){ state.acuity=i; animateChip(); flash('Distance: '+ACUITY[i][0], i>=6?'Sharp. 20/20 or better.':'Good read, room to sharpen.', next); }
+  <div class="surface">${ACUITY.map((r,i)=>`<div class="acuity-row ${curVal===i?'sel':''}" style="font-size:${r[2]}px" onclick="setAcuity(${i})">${r[1]}<div class="rowtag">${r[0]}</div></div>`).join('')}</div>
+  <div class="meta">Estimates your distance acuity &middot; ${isRight?'right eye':'left eye'}</div></div>`; };
+function setAcuity(i){ if(eyePhase==='R'){ state.acuityR=i; flash('Right eye: '+ACUITY[i][0], 'Now switch eyes.', ()=>{ eyePhase='L'; render(); }); }
+  else { state.acuityL=i; state.acuity=Math.min(state.acuityR,state.acuityL); eyePhase='R'; animateChip();
+    const disp=eyeDisparity()>=2?'Notable difference between eyes.':''; flash('Left eye: '+ACUITY[i][0], disp||( i>=6?'Sharp. 20/20 or better.':'Room to sharpen.'), next); } }
 
 /* T2 reaction (modal + 3 tries, slower) */
 screens[7]=()=>{ const s=state.sport;
@@ -375,7 +395,7 @@ function grGo(){ const mark=document.getElementById('grmark'), arena=document.ge
   GR.raf=requestAnimationFrame(loop); }
 function grTap(){ if(!GR.live)return; GR.live=false; cancelAnimationFrame(GR.raf);
   const mark=document.getElementById('grmark'), arena=document.getElementById('grarena'); const y=parseFloat(mark.dataset.y||0), H=arena.clientHeight, pad=GR.pad, range=H-pad*2;
-  const dist=Math.abs(y-GR.targetY)/range, sc=Math.max(42,Math.round(100-dist*125)); GR.best=Math.max(GR.best,sc); state.reaction=GR.best; GR.attempts++; animateChip();
+  const dist=Math.abs(y-GR.targetY)/range, sc=Math.max(30,Math.round(100-dist*125)); GR.best=Math.max(GR.best,sc); state.reaction=GR.best; GR.attempts++; animateChip();
   setOvl('rovl', resultHtml('Distance read',sc,GR.best,GR.attempts, dist<0.05?'Flagged it. Pure depth control.':(dist<0.15?'Close read, just off the pin.':'Misjudged the distance, and very trainable.'),'grBegin')); }
 
 /* tennis / pickleball: read the serve (tap as the ball crosses the line) */
@@ -391,13 +411,13 @@ function svBegin(){ countdown('rovl', svGo); }
 function svGo(){ const ball=document.getElementById('svball'), arena=document.getElementById('svarena'); if(!ball||!arena)return;
   SV.live=true; hideOvl('rovl'); const H=arena.clientHeight, top=24, lineY=H-56; const dur=1400-Math.min(SV.attempts*220,560), t0=performance.now();
   const loop=(t)=>{ if(!SV.live)return; const p=(t-t0)/dur;
-    if(p>=1.2){ SV.live=false; cancelAnimationFrame(SV.raf); SV.attempts++; const sc=44; SV.best=Math.max(SV.best,sc); state.reaction=SV.best; animateChip();
+    if(p>=1.2){ SV.live=false; cancelAnimationFrame(SV.raf); SV.attempts++; const sc=30; SV.best=Math.max(SV.best,sc); state.reaction=SV.best; animateChip();
       setOvl('rovl', resultHtml('Serve read',sc,SV.best,SV.attempts,'It blew right past you. That lag is the fixable part.','svBegin')); return; }
     const y=top+p*(lineY-top), sz=18+Math.min(p,1)*30; ball.style.top=y+'px'; ball.style.width=sz+'px'; ball.style.height=sz+'px'; ball.dataset.p=p;
     SV.raf=requestAnimationFrame(loop); };
   SV.raf=requestAnimationFrame(loop); }
 function svTap(){ if(!SV.live)return; SV.live=false; cancelAnimationFrame(SV.raf);
-  const ball=document.getElementById('svball'); const p=parseFloat(ball.dataset.p||0); const d=Math.abs(1-p), sc=Math.max(42,Math.round(100-d*150));
+  const ball=document.getElementById('svball'); const p=parseFloat(ball.dataset.p||0); const d=Math.abs(1-p), sc=Math.max(30,Math.round(100-d*150));
   SV.best=Math.max(SV.best,sc); state.reaction=SV.best; SV.attempts++; animateChip();
   setOvl('rovl', resultHtml('Serve read',sc,SV.best,SV.attempts, d<0.05?'Dead on the line. Elite read.':(d<0.16?'Caught it, a touch early or late.':'Mistimed the read, and very trainable.'),'svBegin')); }
 
@@ -410,7 +430,7 @@ function reactGo(){ const ball=document.getElementById('rball'); if(!ball)return
     ball.style.filter='blur('+((1-sh)*7).toFixed(2)+'px)'; ball.style.transform='scale('+(0.9+sh*0.16).toFixed(3)+')'; ball.dataset.s=sh.toFixed(3); RT.raf=requestAnimationFrame(loop); };
   RT.raf=requestAnimationFrame(loop); }
 function reactTap(){ if(!RT.live)return; RT.live=false; cancelAnimationFrame(RT.raf); const ball=document.getElementById('rball'); const sh=parseFloat(ball.dataset.s||0);
-  const sc=Math.round(58+sh*40); RT.best=Math.max(RT.best,sc); state.reaction=RT.best; RT.attempts++; ball.style.filter='blur(0)'; ball.style.transform='scale(1.08)'; animateChip();
+  const sc=Math.round(30+sh*68); RT.best=Math.max(RT.best,sc); state.reaction=RT.best; RT.attempts++; ball.style.filter='blur(0)'; ball.style.transform='scale(1.08)'; animateChip();
   setOvl('rovl', resultHtml('On-court read',sc,RT.best,RT.attempts,sh>0.82?'Pro timing.':'A beat late, and fixable.','reactBegin')); }
 
 /* T3 contrast fade (modal + 3 tries, slower) */
@@ -430,7 +450,7 @@ function fadeGo(){ const ball=document.getElementById('cball'); if(!ball)return;
     FT.raf=requestAnimationFrame(loop); };
   FT.raf=requestAnimationFrame(loop); }
 function fadeTap(){ if(!FT.live)return; FT.live=false; cancelAnimationFrame(FT.raf); const ball=document.getElementById('cball'); const op=parseFloat(ball.dataset.o||1);
-  const sc=Math.round(60+(1-op)*38); FT.best=Math.max(FT.best,sc); state.contrast=FT.best; FT.attempts++; ball.style.opacity='1'; animateChip();
+  const sc=Math.round(40+(1-op)*58); FT.best=Math.max(FT.best,sc); state.contrast=FT.best; FT.attempts++; ball.style.opacity='1'; animateChip();
   setOvl('fovl', resultHtml('Contrast',sc,FT.best,FT.attempts,op<0.25?'Sharp low-light read.':'Solid, room to gain.','fadeBegin')); }
 
 /* overlay helpers */
@@ -446,14 +466,17 @@ function hideOvl(id){ const o=document.getElementById(id); if(o)o.style.display=
 function introHtml(title,desc,fn){ return `<div class="ovl-card"><div class="ovl-t">${title}</div><p>${desc}</p><button class="btn" onclick="${fn}()">Begin <span class="arrow">&rarr;</span></button></div>`; }
 function resultHtml(label,sc,best,attempts,note,fn){ const left=3-attempts; return `<div class="ovl-card"><div class="ovl-s">${best}</div><div class="ovl-l">${label} &middot; best of ${attempts}</div><p>${note}</p>${left>0?`<button class="btn ghost" style="margin-bottom:10px" onclick="${fn}()">Try again &middot; ${left} left</button>`:''}<button class="btn" onclick="next()">Continue <span class="arrow">&rarr;</span></button></div>`; }
 
-/* T4 near (tap) */
-screens[9]=()=>{ const NEAR=nearRows();
+/* T4 near (tap, per-eye) */
+screens[9]=()=>{ const NEAR=nearRows(); const isRight=eyePhase==='R'; const curVal=isRight?state.nearR:state.nearL;
   return `<div class="stagger"><div class="eyebrow">Test 4 of 5 &middot; Up-close vision</div><h1>The fine print<br><span class="it">test.</span></h1>
+  <div class="eye-badge ${isRight?'right':'left'}">${isRight?'&#128065; Right eye first &middot; cover your LEFT eye':'&#128065; Now your left eye &middot; cover your RIGHT eye'}</div>
   <div class="lede" style="margin-top:6px">Hold the phone at a comfortable reading distance. Tap the smallest line you can read clearly without readers.</div>
   <div class="method"><span class="md"></span>Near point of accommodation &middot; presbyopia</div>
-  <div class="surface">${NEAR.map((r,i)=>`<div class="near-row ${state.near===i?'sel':''}" style="font-size:${r[2]}px" onclick="setNear(${i})">${r[1]}<div class="rowtag" style="letter-spacing:.1em">${r[0]}</div></div>`).join('')}</div>
-  <div class="meta">Reveals presbyopia, the reading change after 45</div></div>`; };
-function setNear(i){ state.near=i; animateChip(); flash('Near: '+nearRows()[i][0], i>=3?'Excellent up-close vision.':'A common reading change, very fixable.', next); }
+  <div class="surface">${NEAR.map((r,i)=>`<div class="near-row ${curVal===i?'sel':''}" style="font-size:${r[2]}px" onclick="setNear(${i})">${r[1]}<div class="rowtag" style="letter-spacing:.1em">${r[0]}</div></div>`).join('')}</div>
+  <div class="meta">${isRight?'Right eye':'Left eye'} &middot; reveals presbyopia, the reading change after 45</div></div>`; };
+function setNear(i){ if(eyePhase==='R'){ state.nearR=i; flash('Right eye: '+nearRows()[i][0], 'Now switch eyes.', ()=>{ eyePhase='L'; render(); }); }
+  else { state.nearL=i; state.near=Math.max(state.nearR,state.nearL); eyePhase='R'; animateChip();
+    flash('Left eye: '+nearRows()[i][0], i>=3?'Excellent up-close vision.':'A common reading change, very fixable.', next); } }
 
 /* T5 precision: find the break (hyperacuity / vernier) */
 screens[10]=()=>`<div class="stagger"><div class="eyebrow">Test 5 of 5 &middot; Precision test</div><h1>Find the<br><span class="it">offset.</span></h1>
@@ -473,15 +496,15 @@ function renderLines(){ const rows=document.getElementById('hyrows'); if(!rows)r
     html+=`<div class="fline" onclick="hyTap(${i})"><span class="seg top" style="transform:translateX(${o}px)"></span><span class="seg bot"></span></div>`; }
   rows.innerHTML=html; const lv=document.getElementById('hylvl'); if(lv) lv.textContent='Round '+(HY.level+1)+' of '+HY.offsets.length;
   HY.live=true; }
-function hyScore(){ return Math.min(100,50+HY.level*10); }
+function hyScore(){ return Math.min(100,35+HY.level*13); }
 function hyResult(note){ return `<div class="ovl-card"><div class="ovl-s">${HY.best}</div><div class="ovl-l">Precision &middot; finest gap</div><p>${note}</p><button class="btn ghost" style="margin-bottom:10px" onclick="hyBegin()">Try again <span class="arrow">&rarr;</span></button><button class="btn" onclick="next()">Continue <span class="arrow">&rarr;</span></button></div>`; }
 function hyTap(i){ if(!HY.live)return;
   if(i===HY.idx){ HY.live=false; HY.level++; HY.best=Math.max(HY.best,hyScore()); state.hyper=HY.best; animateChip();
     if(HY.level>=HY.offsets.length){ setOvl('hyovl', hyResult('Surgeon-grade. You resolve down to a hair, the top few percent of any age.')); }
     else { flash('Sharp.','Finer now.', renderLines); } }
-  else { HY.live=false; HY.best=Math.max(HY.best,Math.max(50,40+HY.level*10)); state.hyper=HY.best; animateChip();
+  else { HY.live=false; HY.best=Math.max(HY.best,Math.max(35,28+HY.level*13)); state.hyper=HY.best; animateChip();
     setOvl('hyovl', hyResult(HY.level>=3?'Strong eyes. That is a genuinely fine catch.':'The fine line slipped past, and that edge is trainable.')); } }
-function hyPass(){ if(!HY.live)return; HY.live=false; HY.best=Math.max(HY.best,Math.max(50,40+HY.level*10)); state.hyper=HY.best; animateChip();
+function hyPass(){ if(!HY.live)return; HY.live=false; HY.best=Math.max(HY.best,Math.max(35,28+HY.level*13)); state.hyper=HY.best; animateChip();
   setOvl('hyovl', hyResult(HY.level>=3?'Honest call, and a sharp one. You held to a fine gap.':'No shame, that gap is genuinely tiny.')); }
 
 screens[11]=()=>`<div class="stagger"><div class="eyebrow">Your eye history</div><h1>Anything we<br>should <span class="it">know?</span></h1>
@@ -542,8 +565,11 @@ screens[14]=()=>{ const s=totalScore(), avg=ageAvg(), gap=Math.max(0,95-s), mins
       <li>Sport &amp; level <b>${sportName()} &middot; ${state.skill||'&mdash;'}</b></li>
       <li>Plays at <b>${state.club||'&mdash;'}</b></li>
       <li>Age band <b>${state.age||'&mdash;'}</b></li>
-      <li>Estimated acuity <b>${state.acuity!=null?ACUITY[state.acuity][0]:'&mdash;'}</b></li>
-      <li>Near / contrast <b>${nearScore()} / ${state.contrast}</b></li>
+      <li>Right eye acuity <b>${state.acuityR!=null?ACUITY[state.acuityR][0]:'&mdash;'}</b></li>
+      <li>Left eye acuity <b>${state.acuityL!=null?ACUITY[state.acuityL][0]:'&mdash;'}</b></li>
+      <li>Eye disparity <b>${eyeDisparity()>=2?eyeDisparity()+' rows (flagged)':'within normal'}</b></li>
+      <li>Near R / L <b>${state.nearR!=null?nearRows()[state.nearR][0]:'&mdash;'} / ${state.nearL!=null?nearRows()[state.nearL][0]:'&mdash;'}</b></li>
+      <li>Contrast <b>${state.contrast}</b></li>
       <li>Spatial precision <b>${state.hyper||'&mdash;'}</b></li>
       <li>Current correction <b>${correction()}</b></li>
       <li>Flags <b>${ctxFlags()}</b></li>

@@ -556,7 +556,11 @@ screens[14]=()=>{ const s=totalScore(), avg=ageAvg(), gap=Math.max(0,95-s), mins
   const docFocus = cand ? F.clinical : 'Routine / wellness visit';
   const actions = cand
     ? `<button class="btn" onclick="alert('Demo: books the complimentary full Athlete Eye Test and routes this income-qualified, candidacy-screened, proximity-matched lead with the full pre-screen. Doctor focus: ${F.clinical}. No procedure is promised, the doctor decides in clinic.')">Claim my complimentary Athlete&rsquo;s Eye Test <span class="arrow">&rarr;</span></button>
-  <div class="cta-prac">with a doctor who works with active adults &middot; ${office}</div>`
+  <div class="cta-prac">with a doctor who works with active adults &middot; ${office}</div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px">
+    <button class="btn ghost" onclick="alert('Opens turn-by-turn directions to the nearest office.')">&#128205; Directions</button>
+    <button class="btn ghost" onclick="alert('Shares the test so your partner can match up against your score. A built-in referral loop.')">&#129309; Challenge a partner</button></div>
+  <button class="btn ghost" style="margin-top:10px" onclick="alert('Meet the practice: comprehensive eye care, dry-eye treatment, sports-vision training, premium eyewear.')">Meet the practice &amp; services</button>`
     : `<button class="btn" onclick="alert('Meet the practice: comprehensive eye care, dry-eye treatment, sports-vision training, premium eyewear, and a relationship for whenever your eyes do need more.')">Meet the practice &amp; services <span class="arrow">&rarr;</span></button>
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px">
     <button class="btn ghost" onclick="alert('Opens turn-by-turn directions to the nearest office.')">&#128205; Directions</button>
